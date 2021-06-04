@@ -19,7 +19,7 @@ RM = rm -f
 
 CFLAGS = -I $(HEAD) -Wall -Wextra -Werror
 
-FLAGS = -L $(LIB)libft -lft
+FLAGS = -L $(LIB)libft -lft -ltermcap
 
 $(NAME) : $(OBJS) $(HEAD)*.h
 	@make -C $(LIB)libft all

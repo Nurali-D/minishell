@@ -47,23 +47,38 @@ void	init_ms(t_msh *ms)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_msh	ms;
-	t_env	*temp;
-	char	buf[200];
+	t_msh			ms;
+	struct termios	ch_atrr;
+	char			*term_name;
+	char			buf[200];
+	int				n;
 
 	init_ms(&ms);
 	get_env_list(env, &ms);
-	temp = ms.env_list;
-	while (temp)
+	term_name = "xterm-256color";
+	tcgetattr(0, &ch_atrr);
+	ch_atrr.c_lflag &= ~(ECHO);
+	ch_atrr.c_lflag &= ~(ICANON);
+	tcsetattr(0, TCSANOW, &ch_atrr);
+	tgetent(0, term_name);
+	tputs(save_cursor, 1, ft_putchar);
+	while (1)
 	{
-		printf("%s=%s\n", temp->var, temp->var_value);
-		temp = temp->next;
+		// write(1, "my-shell$", 9);
+		n = read(0, buf, 100);
+		if (!strcmp(buf, "\e[A"))
+		{
+			tputs(restore_cursor, 1, ft_putchar);
+			tputs(tgetstr("ed", 0), 1, ft_putchar);
+			printf("previos\n");
+		}
+		else if (!strcmp(buf, "\e[B"))
+			printf("next\n");
+		else if (!strcmp(buf, key_backspace))
+			tputs(delete_character, 1, ft_putchar);
+		else
+			write(1, buf, n);
 	}
-	// while (1)
-	// {
-	// 	write(1, "my-shell$", 9);
-	// 	read(0, buf, 200);
-
-	// }
+	// write(1, "\n", 1);
 	return (0);
 }

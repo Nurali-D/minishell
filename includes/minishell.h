@@ -2,7 +2,8 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-# include <termios.h>
+# include <term.h>
+# include <curses.h>
 # include "get_next_line.h"
 # include "../lib/libft/libft.h"
 

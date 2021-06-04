@@ -6,7 +6,7 @@
 /*   By: ltulune <ltulune@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 09:38:19 by ltulune           #+#    #+#             */
-/*   Updated: 2021/06/04 12:51:57 by ltulune          ###   ########.fr       */
+/*   Updated: 2021/06/04 21:30:46 by ltulune          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -48,6 +49,7 @@ int				ft_isascii(int c);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
 int				ft_atoi(const char *nptr);
+int				ft_putchar(int c);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
