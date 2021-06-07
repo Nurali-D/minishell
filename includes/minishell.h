@@ -1,10 +1,12 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
 # include <stdio.h>
 # include <term.h>
 # include <curses.h>
-# include "get_next_line.h"
 # include "../lib/libft/libft.h"
 
 typedef struct	s_env
@@ -23,10 +25,13 @@ typedef struct		s_token
 
 typedef struct	s_msh
 {
-	t_token	*tokens;
-	t_env   *env_list;
+	t_token			*tokens;
+	t_env			*env_list;
+	struct termios	ch_atr;
+	struct termios	saved_attributes;
+	char			*term_name;
+	char			*line;
+	char			*buf;
 }				t_msh;
-
-struct termios saved_attributes;
 
 #endif
