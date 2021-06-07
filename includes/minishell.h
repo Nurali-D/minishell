@@ -9,17 +9,18 @@
 # include <curses.h>
 # include "../lib/libft/libft.h"
 
+
 typedef struct	s_env
 {
-	char			*var;
-	char			*var_value;
+	char			*key;
+	char			*key_value;
 	struct s_env	*next;
 }				t_env;
 
 typedef struct		s_token
 {
 	char			*type;
-	char			**command;
+	char			**args;
 	struct s_token	*next;
 }					t_token;
 

@@ -28,12 +28,10 @@ void	get_env_list(char **env, t_msh *ms)
 	while (env[i])
 	{
 		temp = (t_env *)malloc(sizeof(t_env));
-		// if (!temp)
-		// 	error_free(ms);
 		temp->next = NULL;
 		splitted = ft_split(env[i], '=');
-		temp->var = splitted[0];
-		temp->var_value = splitted[1];
+		temp->key = splitted[0];
+		temp->key_value = splitted[1];
 		ms->env_list = get_new_list_element(temp, ms->env_list);
 		i++;
 	}
