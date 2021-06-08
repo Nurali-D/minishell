@@ -37,6 +37,7 @@ typedef struct	s_msh
 	t_token			*tokens;
 	t_env			*env_list;
 	t_history		*hist;
+	t_history		*tmp;
 	struct termios	ch_atr;
 	struct termios	saved_attributes;
 	char			*term_name;
@@ -52,5 +53,6 @@ void	treat_backspace(t_msh *ms);
 void	treat_enter(t_msh *ms);
 void	save_to_history(t_msh *ms);
 void	parse_line(t_msh *ms);
+void	get_line_from_history(t_msh *ms, int flag);
 
 #endif
