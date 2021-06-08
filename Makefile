@@ -7,7 +7,7 @@ SRCDIR = srcs/
 
 LIB = lib/
 
-FILES = main.c \
+FILES = main.c parse_execute.c env_list.c bash_history.c keys_functions.c parser.c \
 
 SRCS = $(addprefix $(SRCDIR), $(FILES))
 
