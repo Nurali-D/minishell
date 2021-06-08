@@ -2,16 +2,22 @@
 
 void	treat_up(t_msh *ms)
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tgetstr("ce", 0), 1, ft_putchar);
-	get_line_from_history(ms, 1);
+	if (ms->hist)
+	{
+		tputs(restore_cursor, 1, ft_putchar);
+		tputs(tgetstr("ce", 0), 1, ft_putchar);
+		get_line_from_history(ms, 1);
+	}
 }
 
 void	treat_down(t_msh *ms)
 {
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tgetstr("ce", 0), 1, ft_putchar);
-	get_line_from_history(ms, 2);
+	if (ms->tmp)
+	{
+		tputs(restore_cursor, 1, ft_putchar);
+		tputs(tgetstr("ce", 0), 1, ft_putchar);
+		get_line_from_history(ms, 2);
+	}
 }
 
 void	treat_backspace(t_msh *ms)
@@ -26,7 +32,8 @@ void	treat_backspace(t_msh *ms)
 
 void	treat_enter(t_msh *ms)
 {
-	save_to_history(ms);
+	if (ms->line[0])
+		save_to_history(ms);
 	parse_line(ms);
 	write(1, "\n", 1);
 	write(1, "my-shell$ ", 10);
