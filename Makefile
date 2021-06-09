@@ -3,7 +3,7 @@ NAME = minishell
 
 HEAD = includes/
 
-SRCDIR = srcs/
+SRCDIR = srcs/parser/
 
 LIB = lib/
 

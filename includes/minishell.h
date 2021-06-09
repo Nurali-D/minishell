@@ -13,7 +13,7 @@
 typedef struct	s_env
 {
 	char			*key;
-	char			*key_value;
+	char			*value;
 	struct s_env	*next;
 }				t_env;
 
@@ -41,6 +41,7 @@ typedef struct	s_msh
 	struct termios	ch_atr;
 	struct termios	saved_attributes;
 	char			*term_name;
+	char			*prompt;
 	char			*line;
 	char			*buf;
 }				t_msh;
