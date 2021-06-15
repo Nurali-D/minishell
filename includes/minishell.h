@@ -5,8 +5,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
-# include <term.h>
-# include <curses.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../lib/libft/libft.h"
 
 
@@ -24,36 +24,22 @@ typedef struct		s_token
 	struct s_token	*next;
 }					t_token;
 
-typedef struct		s_history
-{
-	char				*line;
-	struct s_history	*next;
-	struct s_history	*prev;
-}					t_history;
-
-
 typedef struct	s_msh
 {
-	t_token			*tokens;
-	t_env			*env_list;
-	t_history		*hist;
-	t_history		*tmp;
-	struct termios	ch_atr;
-	struct termios	saved_attributes;
-	char			*term_name;
-	char			*prompt;
-	char			*line;
-	char			*buf;
+	t_token		*tokens;
+	t_env		*env_list;
+	char		*prompt;
+	char		*line;
 }				t_msh;
 
 void	get_env_list(char **env, t_msh *ms);
 void	parse_execute(t_msh *ms);
-void	treat_up(t_msh *ms);
-void	treat_down(t_msh *ms);
-void	treat_backspace(t_msh *ms);
-void	treat_enter(t_msh *ms);
-void	save_to_history(t_msh *ms);
 void	parse_line(t_msh *ms);
-void	get_line_from_history(t_msh *ms, int flag);
+void	check_for_syntax_errors(t_msh *ms);
+void	error_function(t_msh *ms, char *error);
+char	*treat_single_quotes(char *str, int *i);
+char	*treat_slash(char *str, int *i);
+char	*treat_double_quotes(char *str, int *i);
+
 
 #endif

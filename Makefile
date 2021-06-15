@@ -7,19 +7,20 @@ SRCDIR = srcs/parser/
 
 LIB = lib/
 
-FILES = main.c parse_execute.c env_list.c shell_history.c keys_functions.c parser.c \
+FILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_function.c \
+		parser_utils.c \
 
 SRCS = $(addprefix $(SRCDIR), $(FILES))
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc -g
+CC = gcc -g -Wall -Wextra -Werror 
 
 RM = rm -f
 
-CFLAGS = -I $(HEAD) -Wall -Wextra -Werror
+CFLAGS = -I $(HEAD) 
 
-FLAGS = -L $(LIB)libft -lft -ltermcap
+FLAGS = -L $(LIB)libft -lft -lreadline
 
 $(NAME) : $(OBJS) $(HEAD)*.h
 	@make -C $(LIB)libft all

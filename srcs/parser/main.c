@@ -4,18 +4,16 @@ void	init_ms(t_msh *ms)
 {
 	ms->env_list = NULL;
 	ms->tokens = NULL;
-	ms->line = (char *)malloc(sizeof(char));
-	ft_bzero(ms->line, 1);
-	ms->buf = (char *)malloc(sizeof(char) * 10);
-	ms->term_name = "xterm-256color";
+	ms->line = NULL;
 	ms->prompt = "\e[32mminishell$\e[0m ";
-	ms->tmp = NULL;
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_msh	ms;
 
+	(void)argc;
+	(void)argv;
 	init_ms(&ms);
 	get_env_list(env, &ms);
 	parse_execute(&ms);
