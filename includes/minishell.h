@@ -39,7 +39,8 @@ void	check_for_syntax_errors(t_msh *ms);
 void	error_function(t_msh *ms, char *error);
 char	*treat_single_quotes(char *str, int *i);
 char	*treat_slash(char *str, int *i);
-char	*treat_double_quotes(char *str, int *i);
+char	*treat_double_quotes(char *str, int *i, t_env *env);
+char	*treat_dollar(char *str, int *i, t_env *env);
 
 
 #endif

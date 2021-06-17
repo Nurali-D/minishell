@@ -55,7 +55,7 @@ char	*treat_slash(char *str, int *i)
 	return (ret);
 }
 
-char	*treat_double_quotes(char *str, int *i)
+char	*treat_double_quotes(char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*tmp;
@@ -68,6 +68,8 @@ char	*treat_double_quotes(char *str, int *i)
 			str = treat_slash(str, i);
 		if (str[*i] == '\"')
 			break;
+		if (str[*i] == '$')
+			str = treat_dollar(str, i, env);
 	}
 	tmp = str;
 	str = delete_quotes(str, *i, j);

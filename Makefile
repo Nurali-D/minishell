@@ -8,13 +8,13 @@ SRCDIR = srcs/parser/
 LIB = lib/
 
 FILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_function.c \
-		parser_utils.c \
+		parser_utils.c parser_utils2.c \
 
 SRCS = $(addprefix $(SRCDIR), $(FILES))
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc -g -Wall -Wextra -Werror 
+CC = gcc -g -Wall -Wextra -Werror -fsanitize=address
 
 RM = rm -f
 
