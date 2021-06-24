@@ -14,11 +14,11 @@ SRCS = $(addprefix $(SRCDIR), $(FILES))
 
 OBJS = ${SRCS:.c=.o}
 
-CC = gcc -g -Wall -Wextra -Werror -fsanitize=address
+CC = gcc -g -Wall -Wextra -Werror
 
 RM = rm -f
 
-CFLAGS = -I $(HEAD) 
+CFLAGS = -I $(HEAD)
 
 FLAGS = -L $(LIB)libft -lft -lreadline
 

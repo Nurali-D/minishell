@@ -20,7 +20,20 @@ char	*is_key_in_env(char *key, t_env *env)
 	}
 	return (NULL);
 }
+char	*ft_strjoin2(char const *s1, char const *s2)
+{
+	char	*res;
 
+	if (!s1 || !s2)
+		return (NULL);
+	res = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (res == NULL)
+		return (NULL);
+	ft_memcpy(res, s1, ft_strlen(s1));
+	ft_memcpy(&res[ft_strlen(s1)], s2, ft_strlen(s2));
+	res[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	return (res);
+}
 char	*replace_key(char *str, char *value, int *i, int j)
 {
 	char	*before;
@@ -30,10 +43,12 @@ char	*replace_key(char *str, char *value, int *i, int j)
 
 	before = ft_substr(str, 0, j);
 	after = ft_strdup(str + *i);
-	tmp = ft_strjoin(before, value);
+	if (before[0] != '\0')
+		tmp = ft_strjoin2(before, value);
 	*i = ft_strlen(tmp);
 	// tmp2 = tmp;
-	tmp = ft_strjoin(tmp, after);
+	if (after[0] != '\0')
+		tmp = ft_strjoin2(tmp, after);
 	// free(str);
 	// free(value);
 	// free(before);

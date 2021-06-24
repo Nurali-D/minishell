@@ -9,6 +9,8 @@
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
 
+# define COMMAND 1
+# define PIPE 2
 
 typedef struct	s_env
 {
@@ -19,7 +21,7 @@ typedef struct	s_env
 
 typedef struct		s_token
 {
-	char			*type;
+	int				type;
 	char			**args;
 	struct s_token	*next;
 }					t_token;
