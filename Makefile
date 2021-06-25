@@ -8,7 +8,7 @@ SRCDIR = srcs/parser/
 LIB = lib/
 
 FILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_function.c \
-		parser_utils.c parser_utils2.c \
+		parser_utils.c parser_utils2.c parse_redirections.c parse_pipe.c \
 
 SRCS = $(addprefix $(SRCDIR), $(FILES))
 
@@ -20,7 +20,10 @@ RM = rm -f
 
 CFLAGS = -I $(HEAD)
 
-FLAGS = -L $(LIB)libft -lft -lreadline
+FLAGS = -L $(LIB)libft -lft \
+		-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ \
+		-I/Users/$(USER)/.brew/Cellar/readline/8.1/include/readline/ \
+		-lreadline \
 
 $(NAME) : $(OBJS) $(HEAD)*.h
 	@make -C $(LIB)libft all

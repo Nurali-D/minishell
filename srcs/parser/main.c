@@ -5,7 +5,7 @@ void	init_ms(t_msh *ms)
 	ms->env_list = NULL;
 	ms->tokens = NULL;
 	ms->line = NULL;
-	ms->prompt = "\e[32mminishell$\e[0m ";
+	ms->prompt = "minishell$ ";
 }
 
 int	main(int argc, char **argv, char **env)
