@@ -28,7 +28,7 @@ void	parse_execute(t_msh *ms)
 		{
 			add_history(ms->line);
 			parse_line(ms);
-			// execute;
+			check_builtin_functions(ms);
 		}
 		free_tokens(ms->tokens);
 		ms->tokens = NULL;

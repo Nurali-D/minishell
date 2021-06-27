@@ -1,16 +1,18 @@
-
 NAME = minishell
 
 HEAD = includes/
 
-SRCDIR = srcs/parser/
+PARSDIR = srcs/parser/
+EXECDIR = srcs/execution/
 
 LIB = lib/
 
-FILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_function.c \
+PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_function.c \
 		parser_utils.c parser_utils2.c parse_redirections.c parse_pipe.c \
 
-SRCS = $(addprefix $(SRCDIR), $(FILES))
+EXECFILES = builtin_functions.c builtin_functions2.c error.c utils.c execution.c \
+
+SRCS = $(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES))
 
 OBJS = ${SRCS:.c=.o}
 
@@ -48,6 +50,6 @@ re: fclean all
 bonus: all
 
 norme:
-	norminette -R CheckForbiddenSourceHeader $(SRCDIR)*.c $(HEAD)*.h
+	norminette -R CheckForbiddenSourceHeader $(PARSDIR)*.c $(EXECDIR)*.c $(HEAD)*.h
 
 .PHONY: all clean fclean re norme bonus
