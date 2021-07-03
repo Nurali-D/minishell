@@ -31,20 +31,18 @@ int	check_semicolon(void)
 int	check_for_syntax_errors(t_msh *ms)
 {
 	int	i;
-	int	j;
+	// int	j;
 
-	j = 0;
+	// j = 0;
 	i = -1;
 	(void)ms;
-	while (ms->line[++i])
-	{
-		while (ms->line && ms->line[++i])
+	while (ms->line && ms->line[++i])
 	{
 		if (ms->line[i] == '\'' && check_single_quotes(ms->line, i) == 1)
 			return (1);
 		else if (ms->line[i] == '\\')
 			i += 1;
-		else if (ms->line[i] == '"' && check_double_quotes(ms->line, &i) == 1)
+		else if (ms->line[i] == '"' && check_double_quotes(ms->line, i) == 1)
 			return (1);
 		// else if (ms->line[i] == '$')
 		// 	ms->line = treat_dollar(ms->line, &i, ms->env_list);
@@ -60,6 +58,6 @@ int	check_for_syntax_errors(t_msh *ms)
 		// 	check_redirections(ms, &i, j);
 		// 	j = i + 1;
 		// }
-		
 	}
+	return (0);
 }

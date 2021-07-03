@@ -24,8 +24,8 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 			dir_entry = readdir(dir);
 			while (dir_entry != NULL)
 			{
-				char *resss;
-				resss = &ms->tokens->args[0][len + 1];
+				// char *resss;
+				// resss = &ms->tokens->args[0][len + 1];
 				if ((ft_strcmp(&ms->tokens->args[0][len + 1], dir_entry->d_name)) == 0)
 				{
 					execve(ms->tokens->args[0], ms->tokens->args, NULL);
