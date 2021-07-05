@@ -56,7 +56,7 @@ typedef struct s_msh
 	char		*line;
 	char		**env;
 }				t_msh;
-
+// test
 void	get_env_list(char **env, t_msh *ms);
 void	parse_execute(t_msh *ms);
 int		parse_line(t_msh *ms);
