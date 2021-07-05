@@ -11,12 +11,13 @@ void	add_command_to_tokens(t_msh *ms, int j, int i)
 	put_to_tokens_list(ms, tmp);
 }
 
-void	parse_line(t_msh *ms)
+int	parse_line(t_msh *ms)
 {
 	int	i = -1;
 	int	j = 0;
 
-	// check_for_syntax_errors(ms);
+	if (check_for_syntax_errors(ms))
+		return (1);
 	while (ms->line && ms->line[++i])
 	{
 		if (ms->line[i] == '\'')
@@ -53,4 +54,5 @@ void	parse_line(t_msh *ms)
 	// 	tmp = tmp->next;
 	// }
 	// printf("%s\n", ms->line);
+	return (0);
 }

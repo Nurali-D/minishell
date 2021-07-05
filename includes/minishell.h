@@ -59,7 +59,7 @@ typedef struct s_msh
 
 void	get_env_list(char **env, t_msh *ms);
 void	parse_execute(t_msh *ms);
-void	parse_line(t_msh *ms);
+int		parse_line(t_msh *ms);
 int		check_for_syntax_errors(t_msh *ms);
 void	error_function(t_msh *ms, char *error);
 char	*treat_single_quotes(char *str, int *i);

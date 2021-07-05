@@ -16,7 +16,8 @@ void	free_tokens(t_token *tokens)
 		tmp = tmp->next;
 		free(tmp2);
 	}
-	free(tmp);
+	if (tmp)
+		free(tmp);
 }
 
 void	parse_execute(t_msh *ms)
@@ -27,8 +28,8 @@ void	parse_execute(t_msh *ms)
 		if (ms->line[0] != '\0')
 		{
 			add_history(ms->line);
-			parse_line(ms);
-			check_builtin_functions(ms);
+			if (parse_line(ms) == 0)
+				check_builtin_functions(ms);
 		}
 		free_tokens(ms->tokens);
 		ms->tokens = NULL;
