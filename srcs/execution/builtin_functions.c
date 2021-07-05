@@ -12,6 +12,7 @@ void	echo_execution(char **args, int i)
 	}
 	if (!(args[1]) || (ft_strcmp(args[1], "-n")) != 0)
 		ft_putchar_fd('\n', 1);
+	printf("\e[1;92mbuilt-in function\n\e[0m");
 }
 
 void	cd_execution(char **args, t_env *head)
@@ -23,6 +24,7 @@ void	cd_execution(char **args, t_env *head)
 	tmp->value = getcwd(NULL, 0);
 	if (!args[1])
 	{
+		printf("\e[1;92mbuilt-in function\n\e[0m");
 		tmp = ft_getcwd(head, "HOME");
 		chdir(tmp->value);
 	}
@@ -30,7 +32,7 @@ void	cd_execution(char **args, t_env *head)
 	{
 		i = chdir(args[1]);
 		if (i == -1)
-			print_error("cd: ", args[1], errno);
+			cd_error("cd: ", args[1], errno);
 	}
 	tmp = ft_getcwd(head, "PWD");
 	tmp->value = getcwd(NULL, 0);
@@ -42,9 +44,12 @@ void	pwd_execution(void)
 
 	path = NULL;
 	path = getcwd(NULL, 0);
+	if (path == NULL)
+		return ;
 	ft_putendl_fd(path, 1);
 	free(path);
 	path = NULL;
+	printf("\e[1;92mbuilt-in function\n\e[0m");
 }
 
 void	env_execution(t_env *env)
@@ -57,4 +62,5 @@ void	env_execution(t_env *env)
 		ft_putchar_fd('\n', 1);
 		env = env->next;
 	}
+	printf("\e[1;92mbuilt-in function\n\e[0m");
 }

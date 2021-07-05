@@ -2,16 +2,18 @@
 
 void	check_execve_functions(t_msh *ms, t_env *head)
 {
+	char			**env;
 	DIR				*dir;
 	struct dirent	*dir_entry;
 	char			**path;
 	t_env			*tmp;
 	int				i;
 	int				len;
-	// pid_t			pid;
+	pid_t			pid;
 
 	tmp = ft_getcwd(head, "PATH");
 	path = ft_split(tmp->value, ':');
+	env = get_env_arr(ms);
 	i = -1;
 	while (path[++i])
 	{
@@ -19,16 +21,18 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 		{
 			dir = opendir(path[i]);
 			len = ft_strlen(path[i]);
-			// if (dir == NULL)
-			// 	return (NULL); 
 			dir_entry = readdir(dir);
 			while (dir_entry != NULL)
 			{
-				// char *resss;
-				// resss = &ms->tokens->args[0][len + 1];
-				if ((ft_strcmp(&ms->tokens->args[0][len + 1], dir_entry->d_name)) == 0)
+				if ((ft_strcmp(&ms->tokens->args[0][len + 1],
+						dir_entry->d_name)) == 0)
 				{
-					execve(ms->tokens->args[0], ms->tokens->args, NULL);
+					pid = fork();
+					wait(0);
+					if (pid == 0)
+					{
+						execve(ms->tokens->args[0], ms->tokens->args, env);
+					}
 				}
 				dir_entry = readdir(dir);
 			}
@@ -39,8 +43,6 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 	while (path[++i])
 	{
 		dir = opendir(path[i]);
-		// if (dir == NULL)
-		// 	return (NULL); // обработать ошибку
 		if (dir != NULL)
 		{
 			dir_entry = readdir(dir);
@@ -48,11 +50,15 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 			{
 				if ((ft_strcmp(ms->tokens->args[0], dir_entry->d_name)) == 0)
 				{
-					ms->tokens->args[0] = triplejoin(path[i], "/", ms->tokens->args[0]);
-					// pid = fork();
-					// wait(0);
-					// if (pid == 0)
-						execve(ms->tokens->args[0], ms->tokens->args, NULL);
+					ms->tokens->args[0] = triplejoin(path[i],
+							"/", ms->tokens->args[0]);
+					pid = fork();
+					wait(0);
+					if (pid == 0)
+					{
+						execve(ms->tokens->args[0], ms->tokens->args, env);
+					}
+					printf("\e[1;93mexecution function\n\e[0m");
 				}
 				dir_entry = readdir(dir);
 			}
@@ -63,7 +69,6 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 
 void	check_builtin_functions(t_msh *ms)
 {
-
 	if ((ft_strcmp(ms->tokens->args[0], "echo")) == 0)
 		echo_execution(ms->tokens->args, 1);
 	else if ((ft_strcmp(ms->tokens->args[0], "cd")) == 0)
@@ -71,7 +76,7 @@ void	check_builtin_functions(t_msh *ms)
 	else if ((ft_strcmp(ms->tokens->args[0], "pwd")) == 0)
 		pwd_execution();
 	else if ((ft_strcmp(ms->tokens->args[0], "export")) == 0)
-		;
+		export_execution(ms);
 	else if ((ft_strcmp(ms->tokens->args[0], "unset")) == 0)
 		;
 	else if ((ft_strcmp(ms->tokens->args[0], "env")) == 0)

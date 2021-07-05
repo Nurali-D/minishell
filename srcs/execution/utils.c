@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-int	ft_lstsize(t_env *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
 char	*triplejoin(char *s1, char *s2, char *s3)
 {
 	char	*res;
@@ -30,27 +17,28 @@ char	*triplejoin(char *s1, char *s2, char *s3)
 	return (res);
 }
 
-int	get_env_arr(t_msh *ms)
+char	**get_env_arr(t_msh *ms)
 {
 	int		i;
+	char	**res;
 	t_env	*tmp;
 
 	tmp = ms->env_list;
 	i = ft_lstsize(tmp);
-	ms->env = (char **)ft_calloc(i, sizeof(char *));
-	if (ms->env == NULL)
-		return (1);
+	res = (char **)ft_calloc(i, sizeof(char *));
+	if (res == NULL)
+		return (NULL);
 	i = -1;
 	while (tmp)
 	{
-		ms->env[++i] = triplejoin(tmp->key, "=", tmp->value);
-		if (ms->env[i] == NULL)
-			return (1);
+		res[++i] = triplejoin(tmp->key, "=", tmp->value);
+		if (res[i] == NULL)
+			return (NULL);
 		tmp = tmp->next;
 	}
-	return (0);
+	res[i + 1] = NULL;
+	return (res);
 }
-
 
 t_env	*ft_getcwd(t_env *head, char *env)
 {
