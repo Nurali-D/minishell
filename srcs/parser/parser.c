@@ -28,8 +28,6 @@ int	parse_line(t_msh *ms)
 			ms->line = treat_double_quotes(ms->line, &i, ms->env_list);
 		else if (ms->line[i] == '$')
 			ms->line = treat_dollar(ms->line, &i, ms->env_list);
-		// else if (ms->line[i] == ';')
-		// 	treat_semicolon(ms);
 		else if (ms->line[i] == '|')
 		{
 			treat_separator(ms, i, j, PIPE);

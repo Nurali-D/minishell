@@ -43,9 +43,11 @@ char	*replace_key(char *str, char *value, int *i, int j)
 
 	before = ft_substr(str, 0, j);
 	after = ft_strdup(str + *i);
-	if (before[0] != '\0')
+	// if (before[0] != '\0')
+	// {
 		tmp = ft_strjoin2(before, value);
-	*i = ft_strlen(tmp);
+		*i = ft_strlen(tmp);
+	// }
 	// tmp2 = tmp;
 	if (after[0] != '\0')
 		tmp = ft_strjoin2(tmp, after);
@@ -70,6 +72,7 @@ char	*treat_dollar(char *str, int *i, t_env *env)
 		return (str);
 	tmp = ft_substr(str, j + 1, *i - j - 1);
 	tmp2 = is_key_in_env(tmp, env);
+	printf("tmp2 = %s\n", tmp2);
 	if (tmp2 != NULL)
 		str = replace_key(str, tmp2, i, j);
 	return (str);

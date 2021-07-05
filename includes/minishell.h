@@ -70,6 +70,8 @@ char	**get_args(char *line, int i);
 void	put_to_tokens_list(t_msh *ms, t_token *new);
 void	treat_redirections(t_msh *ms, int *i, int j);
 void	treat_separator(t_msh *ms, int i, int j, int type);
+int		check_single_quotes(char *line, int *i);
+int		check_double_quotes(char *line, int *i);
 
 void	check_execve_functions(t_msh *ms, t_env *head);
 void	check_builtin_functions(t_msh *ms);
