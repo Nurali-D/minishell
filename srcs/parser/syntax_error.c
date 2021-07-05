@@ -28,11 +28,15 @@ int	check_pipe(char *line, int i)
 		}
 	j = i;
 	while (j < (int)ft_strlen(line) && line[++j])
+	{
 		if (ft_isprint(line[j]) && !is_separator(line[j]))
 		{
 			k++;
 			break ;
 		}
+		else if (is_separator(line[j]) && line[j] != ' ')
+			break ;
+	}
 	if (k == 2)
 		return (0);
 	if (k != 2 && (int)ft_strlen(line) > 0 && line[i + 1] == '|')
