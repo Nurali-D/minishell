@@ -12,7 +12,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_msh	ms;
 
-	printf("RLANDO BRANCH");
 	(void)argc;
 	(void)argv;
 	init_ms(&ms);
