@@ -71,8 +71,8 @@ int		check_double_quotes(char *line, int *i);
 /*
 ** Exec functions
 */
-void	check_execve_functions(t_msh *ms, t_env *head);
-void	check_builtin_functions(t_msh *ms);
+int		check_execve_functions(t_msh *ms, t_env *head);
+void	check_functions(t_msh *ms);
 
 /*
 ** built-in functions
@@ -80,21 +80,30 @@ void	check_builtin_functions(t_msh *ms);
 void	echo_execution(char **args, int i);
 void	cd_execution(char **args, t_env *head);
 void	pwd_execution(void);
-void	env_execution(t_env *env);
-void	export_execution(t_msh *ms);
-void	unset_execution(void);
+void	env_execution(t_env *env, char **args);
+void	export_execution(t_env *ms, char **args);
+void	unset_execution(t_env *ms, char **args);
 void	exit_execution(void);
 
 /*
 ** utils for exec functions
 */
-int		ft_lstsize(t_env *lst);
-t_env	*ft_lstnew(char *key, char *value);
+int		ft_arrlen(char **s);
+int		ft_isenv(int c);
 char	**get_env_arr(t_msh *ms);
+void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
-void	cd_error(char *command, char *arg, int type);
+void	ft_error(char *cmd, char *arg, int err);
+void	env_error(char *cmd);
 void	bubblesort(char **values);
+
+/*
+** utils for list
+*/
+int		ft_lstsize(t_env *lst);
 void	ft_lstadd_back(t_env *lst, t_env *new);
-t_env	*ft_getcwd(t_env *head, char *env);
+void	ft_poplst(t_env *lst, t_env *root);
+t_env	*ft_lstnew(char *key, char *value);
+t_env	*ft_getenv(t_env *head, char *env);
 
 #endif

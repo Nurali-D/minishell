@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-int	ft_arrlen(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
 void	bubblesort(char **values)
 {
 	int		i;
@@ -29,13 +19,46 @@ void	bubblesort(char **values)
 				tmp = values[j];
 				values[j] = values[j + 1];
 				values[j + 1] = tmp;
-				// swap(values[j], values[j + 1]);
 			}
 			j++;
 		}
 		i++;
 	}
 }
+
+// void	sort(t_env *env)
+// {
+// 	t_env	*p;
+// 	t_env	*key;
+// 	t_env	*result;
+
+// 	result = env;
+// 	env = env->next;
+// 	result->next = NULL;
+// 	while (env->next != NULL)
+// 	{
+// 		key = env;
+// 		env = env->next;
+// 		if (key->key < result->key)
+// 		{
+// 			key->next = result;
+// 			result = key;
+// 		}
+// 		else
+// 		{
+// 			p = result;
+// 			while (p->next != NULL)
+// 			{
+// 				if (p->next->key > key->key)
+// 					break;
+// 				p = p->next;
+// 			}
+// 			key->next = p->next;
+// 			p->next = key;
+// 		}
+// 	}
+// 	env = result;
+// }
 
 /*
 void	combsort(char **values)

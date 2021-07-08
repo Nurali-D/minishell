@@ -53,4 +53,4 @@ bonus: all
 norme:
 	norminette -R CheckForbiddenSourceHeader $(PARSDIR)*.c $(EXECDIR)*.c $(HEAD)*.h
 
-.PHONY: all clean fclean re norme bonus
+.PHONY: all clean fclean re norme bonuss

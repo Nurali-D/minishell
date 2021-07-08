@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	check_execve_functions(t_msh *ms, t_env *head)
+int	check_execve_functions(t_msh *ms, t_env *head)
 {
 	char			**env;
 	DIR				*dir;
@@ -11,7 +11,7 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 	int				len;
 	pid_t			pid;
 
-	tmp = ft_getcwd(head, "PATH");
+	tmp = ft_getenv(head, "PATH");
 	path = ft_split(tmp->value, ':');
 	env = get_env_arr(ms);
 	i = -1;
@@ -33,6 +33,7 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 					{
 						execve(ms->tokens->args[0], ms->tokens->args, env);
 					}
+					return (1);
 				}
 				dir_entry = readdir(dir);
 			}
@@ -58,16 +59,17 @@ void	check_execve_functions(t_msh *ms, t_env *head)
 					{
 						execve(ms->tokens->args[0], ms->tokens->args, env);
 					}
-					printf("\e[1;93mexecution function\n\e[0m");
+					return (1);
 				}
 				dir_entry = readdir(dir);
 			}
 		}
 		closedir(dir);
 	}
+	return (0);
 }
 
-void	check_builtin_functions(t_msh *ms)
+void	check_functions(t_msh *ms)
 {
 	if ((ft_strcmp(ms->tokens->args[0], "echo")) == 0)
 		echo_execution(ms->tokens->args, 1);
@@ -76,13 +78,15 @@ void	check_builtin_functions(t_msh *ms)
 	else if ((ft_strcmp(ms->tokens->args[0], "pwd")) == 0)
 		pwd_execution();
 	else if ((ft_strcmp(ms->tokens->args[0], "export")) == 0)
-		export_execution(ms);
+		export_execution(ms->env_list, ms->tokens->args);
 	else if ((ft_strcmp(ms->tokens->args[0], "unset")) == 0)
-		;
+		unset_execution(ms->env_list, ms->tokens->args);
 	else if ((ft_strcmp(ms->tokens->args[0], "env")) == 0)
-		env_execution(ms->env_list);
+		env_execution(ms->env_list, ms->tokens->args);
 	else if ((ft_strcmp(ms->tokens->args[0], "exit")) == 0)
+		exit_execution();
+	else if ((check_execve_functions(ms, ms->env_list)))
 		;
 	else
-		check_execve_functions(ms, ms->env_list);
+		ft_error(ms->tokens->args[0], NULL, -1);
 }

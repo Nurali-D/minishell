@@ -25,7 +25,8 @@ t_env	*ft_lstnew(char *key, char *value)
 {
 	t_env	*new;
 
-	if (!(new = (t_env *)malloc(sizeof(t_env))))
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
 		return (NULL);
 	new->key = key;
 	new->value = value;
@@ -35,7 +36,7 @@ t_env	*ft_lstnew(char *key, char *value)
 
 void	ft_lstadd_back(t_env *lst, t_env *new)
 {
-	t_env *last;
+	t_env	*last;
 
 	if (lst)
 	{
@@ -44,4 +45,20 @@ void	ft_lstadd_back(t_env *lst, t_env *new)
 	}
 	else
 		lst = new;
+}
+
+void	ft_poplst(t_env *lst, t_env *root)
+{
+	t_env	*tmp;
+
+	tmp = root;
+	if (lst)
+	{
+		while (tmp->next != lst)
+		{
+			tmp = tmp->next;
+		}
+		tmp->next = lst->next;
+		free(lst);
+	}
 }

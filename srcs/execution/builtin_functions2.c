@@ -1,94 +1,83 @@
 #include "minishell.h"
 
-// void	sort(t_env *env)
-// {
-// 	t_env	*p;
-// 	t_env	*key;
-// 	t_env	*result;
-
-// 	result = env;
-// 	env = env->next;
-// 	result->next = NULL;
-// 	while (env->next != NULL)
-// 	{
-// 		key = env;
-// 		env = env->next;
-// 		if (key->key < result->key)
-// 		{
-// 			key->next = result;
-// 			result = key;
-// 		}
-// 		else
-// 		{
-// 			p = result;
-// 			while (p->next != NULL)
-// 			{
-// 				if (p->next->key > key->key)
-// 					break;
-// 				p = p->next;
-// 			}
-// 			key->next = p->next;
-// 			p->next = key;
-// 		}
-// 	}
-// 	env = result;
-// }
-
 void	print_export(t_env *export)
 {
-	ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(export->key, 1);
-	ft_putstr_fd("=\"", 1);
-	ft_putstr_fd(export->value, 1);
-	ft_putstr_fd("\"\n", 1);
+	while (export)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(export->key, 1);
+		if (export->value != NULL)
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(export->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
+		ft_putstr_fd("\n", 1);
+		export = export->next;
+	}
 }
 
-// не отрабатывает добавление корректно, записывает муссор
-// решил изменить сотрировку, чтобы в дальнейшем было проще работать
-
-void	export_execution(t_msh *ms)
+void	export_execution(t_env *lst, char **args)
 {
 	t_env *tmp;
 	int		i;
-	int		j;
-	char	**res;
+	int		len;
+	char	*res1;
+	char	*res2;
 
 	// sort(tmp);
 	// env = get_env_arr(ms);
 	// bubblesort(env);
-	tmp = ms->env_list;
-	if (!ms->tokens->args[1])
-	{
-		while (tmp)
-		{
-			print_export(tmp);
-			tmp = tmp->next;
-		}
-	}
+	tmp = lst;
+	if (!args[1])
+		print_export(tmp);
 	else
 	{
 		i = 0;
-		while (ms->tokens->args[++i])
+		while (args[++i])
 		{
-			res = ft_split(ms->tokens->args[i], '='); // обработать error
-			ft_lstadd_back(ms->env_list, ft_lstnew(res[0], res[1]));
-			j = -1;
-			while (res[++j])
-				free(res[j]);
-			free(res);
+			if (ft_isenv(args[i][0]))
+			{
+				ft_error("export: ", args[i], -2);
+				return ;
+			}
+			len = ft_strlen(args[i]) - ft_strlen(ft_strchr(args[i], '='));
+			res1 = ft_substr(args[i], 0, len);
+			res2 = NULL;
+			if ((ft_strchr(args[i], '=')) != NULL)
+				res2 = ft_strdup(&args[i][len + 1]);
+			tmp = ft_getenv(lst, res1);
+			if (tmp)
+			{
+				if (res2 != NULL)
+					tmp->value = res2;
+			}
+			else
+				ft_lstadd_back(lst, ft_lstnew(res1, res2));
 		}
 	}
-	printf("\e[1;92mbuilt-in function\n\e[0m");
 }
 
-void	unset_execution(void)
+void	unset_execution(t_env *lst, char **args)
 {
-	printf("\e[1;92mbuilt-in function\n\e[0m");
-	return ;
+	int	i;
+
+	if (args[1])
+	{
+		i = 0;
+		while (args[++i])
+		{
+			if (ft_isenv(args[i][0]))
+			{
+				ft_error("export: ", args[i], -2);
+				return ;
+			}
+			ft_poplst(ft_getenv(lst, args[i]), lst);
+		}
+	}
 }
 
 void	exit_execution(void)
 {
-	printf("\e[1;92mbuilt-in function\n\e[0m");
 	return ;
-}
+}  
