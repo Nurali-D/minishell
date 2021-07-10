@@ -17,11 +17,7 @@ char	**get_args(char *line, int i)
 			break ;
 	tmp = (char *)malloc(sizeof(char) * (k - j + 2));
 	ft_strlcpy(tmp, &line[j], k - j + 2);
-	// printf("tmp = /%s/\n", tmp);
 	temp = ft_split(tmp, ' ');
-	// k = -1;
-	// while (temp[++k])
-	// 	printf("%d = /%s/\n", k, temp[k]);
 	return (temp);
 }
 
@@ -44,7 +40,7 @@ void	put_to_tokens_list(t_msh *ms, t_token *new)
 
 void	treat_separator(t_msh *ms, int i, int j, int type)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = (t_token *)malloc(sizeof(t_token));
 	tmp->type = COMMAND;

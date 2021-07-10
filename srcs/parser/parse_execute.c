@@ -10,7 +10,7 @@ void	free_tokens(t_token *tokens)
 	while (tmp)
 	{
 		i = -1;
-		while(tmp->args && tmp->args[++i])
+		while (tmp->args && tmp->args[++i])
 			free(tmp->args[i]);
 		tmp2 = tmp;
 		tmp = tmp->next;

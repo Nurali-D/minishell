@@ -8,7 +8,7 @@ static t_env	*get_new_list_element(t_env *new, t_env *head)
 	while (temp)
 	{
 		if (!(temp->next))
-			break;
+			break ;
 		temp = temp->next;
 	}
 	if (!(head))
