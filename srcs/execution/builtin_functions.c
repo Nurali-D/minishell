@@ -19,21 +19,23 @@ void	cd_execution(char **args, t_env *head)
 	int		i;
 	t_env	*tmp;
 
-	tmp = ft_getcwd(head, "OLDPWD");
-	tmp->value = getcwd(NULL, 0);
-	if (!args[1])
+	tmp = ft_getenv(head, "OLDPWD");
+	if (tmp)
 	{
-		tmp = ft_getcwd(head, "HOME");
-		chdir(tmp->value);
-	}
-	else
-	{
+		tmp->value = getcwd(NULL, 0);
+		if (tmp->value == NULL)
+			ft_error("cd: ", args[1], errno);
 		i = chdir(args[1]);
 		if (i == -1)
-			print_error("cd: ", args[1], errno);
+			ft_error("cd: ", args[1], errno);
 	}
-	tmp = ft_getcwd(head, "PWD");
-	tmp->value = getcwd(NULL, 0);
+	tmp = ft_getenv(head, "PWD");
+	if (tmp)
+	{
+		if (tmp->value == NULL)
+			ft_error("cd: ", args[1], errno);
+		tmp->value = getcwd(NULL, 0);
+	}
 }
 
 void	pwd_execution(void)
@@ -47,14 +49,22 @@ void	pwd_execution(void)
 	path = NULL;
 }
 
-void	env_execution(t_env *env)
+void	env_execution(t_env *env, char **args)
 {
-	while (env)
+	if (args[1])
+		ft_error("env: ", args[1], ENOTSUP);
+	else
 	{
-		ft_putstr_fd(env->key, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(env->value, 1);
-		ft_putchar_fd('\n', 1);
-		env = env->next;
+		while (env)
+		{
+			if (env->value)
+			{
+				ft_putstr_fd(env->key, 1);
+				ft_putchar_fd('=', 1);
+				ft_putstr_fd(env->value, 1);
+				ft_putchar_fd('\n', 1);
+			}
+			env = env->next;
+		}
 	}
 }

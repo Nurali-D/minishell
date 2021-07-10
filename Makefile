@@ -11,7 +11,7 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_func
 		parser_utils.c parser_utils2.c parse_redirections.c parse_pipe.c \
 		syntax_error2.c \
 
-EXECFILES = builtin_functions.c builtin_functions2.c error.c utils.c execution.c \
+EXECFILES = builtin_functions.c builtin_functions2.c error.c utils.c execution.c sort.c lst_utils.c \
 
 SRCS = $(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES))
 
@@ -53,4 +53,4 @@ bonus: all
 norme:
 	norminette -R CheckForbiddenSourceHeader $(PARSDIR)*.c $(EXECDIR)*.c $(HEAD)*.h
 
-.PHONY: all clean fclean re norme bonus
+.PHONY: all clean fclean re norme bonuss

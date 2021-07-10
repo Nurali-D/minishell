@@ -19,14 +19,6 @@
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
 
-// # include <unistd.h>
-// # include <stdlib.h>
-// # include <string.h>
-// # include <stdio.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
-// # include "../lib/libft/libft.h"
-
 # define COMMAND 1
 # define PIPE 2
 # define REDIRECT_ST_OUTPUT 3
@@ -56,7 +48,10 @@ typedef struct s_msh
 	char		*line;
 	char		**env;
 }				t_msh;
-// test
+
+/*
+** Pars functions
+*/
 void	get_env_list(char **env, t_msh *ms);
 void	parse_execute(t_msh *ms);
 int		parse_line(t_msh *ms);
@@ -73,16 +68,42 @@ void	treat_separator(t_msh *ms, int i, int j, int type);
 int		check_single_quotes(char *line, int *i);
 int		check_double_quotes(char *line, int *i);
 
-void	check_execve_functions(t_msh *ms, t_env *head);
-void	check_builtin_functions(t_msh *ms);
+/*
+** Exec functions
+*/
+int		check_execve_functions(t_msh *ms, t_env *head);
+void	check_functions(t_msh *ms);
+
+/*
+** built-in functions
+*/
 void	echo_execution(char **args, int i);
 void	cd_execution(char **args, t_env *head);
 void	pwd_execution(void);
-void	env_execution(t_env *env);
-void	print_error(char *command, char *arg, int type);
-t_env	*ft_getcwd(t_env *head, char *env);
-int		ft_lstsize(t_env *lst);
-int		get_env_arr(t_msh *ms);
+void	env_execution(t_env *env, char **args);
+void	export_execution(t_env *ms, char **args);
+void	unset_execution(t_env *ms, char **args);
+void	exit_execution(void);
+
+/*
+** utils for exec functions
+*/
+int		ft_arrlen(char **s);
+int		ft_isenv(int c);
+char	**get_env_arr(t_msh *ms);
+void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
+void	ft_error(char *cmd, char *arg, int err);
+void	env_error(char *cmd);
+void	bubblesort(char **values);
+
+/*
+** utils for list
+*/
+int		ft_lstsize(t_env *lst);
+void	ft_lstadd_back(t_env *lst, t_env *new);
+void	ft_poplst(t_env *lst, t_env *root);
+t_env	*ft_lstnew(char *key, char *value);
+t_env	*ft_getenv(t_env *head, char *env);
 
 #endif
