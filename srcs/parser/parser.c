@@ -22,8 +22,8 @@ int	parse_line(t_msh *ms)
 	{
 		if (ms->line[i] == '\'')
 			ms->line = treat_single_quotes(ms->line, &i);
-		else if (ms->line[i] == '\\')
-			ms->line = treat_slash(ms->line, &i);
+		// else if (ms->line[i] == '\\')
+		// 	ms->line = treat_slash(ms->line, &i);
 		else if (ms->line[i] == '"')
 			ms->line = treat_double_quotes(ms->line, &i, ms->env_list);
 		else if (ms->line[i] == '$')

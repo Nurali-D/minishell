@@ -16,7 +16,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	init_ms(&ms);
 	get_env_list(env, &ms);
-	get_env_arr(&ms);
+	// get_env_arr(&ms);
 	parse_execute(&ms);
 	return (0);
 }

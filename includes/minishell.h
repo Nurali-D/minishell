@@ -95,7 +95,8 @@ void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
 void	ft_error(char *cmd, char *arg, int err);
 void	env_error(char *cmd);
-void	bubblesort(char **values);
+void	bubblesort(t_env *head);
+void	print_export(t_env *export);
 
 /*
 ** utils for list

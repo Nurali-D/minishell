@@ -28,11 +28,10 @@ int	check_execve_functions(t_msh *ms, t_env *head)
 						dir_entry->d_name)) == 0)
 				{
 					pid = fork();
-					wait(0);
+					if (pid != 0)
+						wait(0);
 					if (pid == 0)
-					{
 						execve(ms->tokens->args[0], ms->tokens->args, env);
-					}
 					return (1);
 				}
 				dir_entry = readdir(dir);
@@ -54,23 +53,24 @@ int	check_execve_functions(t_msh *ms, t_env *head)
 					ms->tokens->args[0] = triplejoin(path[i],
 							"/", ms->tokens->args[0]);
 					pid = fork();
-					wait(0);
+					if (pid != 0)
+						wait(0);
 					if (pid == 0)
-					{
 						execve(ms->tokens->args[0], ms->tokens->args, env);
-					}
 					return (1);
 				}
 				dir_entry = readdir(dir);
 			}
+			closedir(dir);
 		}
-		closedir(dir);
 	}
 	return (0);
 }
 
 void	check_functions(t_msh *ms)
 {
+	// if ((ft_strchr(ms->tokens->args[0], '/')) != NULL)
+	// 	ft_error(ms->tokens->args[0], "\0", 2);
 	if ((ft_strcmp(ms->tokens->args[0], "echo")) == 0)
 		echo_execution(ms->tokens->args, 1);
 	else if ((ft_strcmp(ms->tokens->args[0], "cd")) == 0)

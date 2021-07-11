@@ -19,6 +19,7 @@ void	print_export(t_env *export)
 
 void	export_execution(t_env *lst, char **args)
 {
+	(void)args;
 	t_env *tmp;
 	int		i;
 	int		len;
@@ -27,8 +28,8 @@ void	export_execution(t_env *lst, char **args)
 
 	// sort(tmp);
 	// env = get_env_arr(ms);
-	// bubblesort(env);
 	tmp = lst;
+	bubblesort(tmp);
 	if (!args[1])
 		print_export(tmp);
 	else
