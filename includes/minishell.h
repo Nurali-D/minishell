@@ -90,12 +90,12 @@ void	exit_execution(void);
 */
 int		ft_arrlen(char **s);
 int		ft_isenv(int c);
-char	**get_env_arr(t_msh *ms);
+char	**get_env_arr(t_env *export);
 void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
 void	ft_error(char *cmd, char *arg, int err);
 void	env_error(char *cmd);
-void	bubblesort(t_env *head);
+void	bubblesort(char **values);
 void	print_export(t_env *export);
 
 /*

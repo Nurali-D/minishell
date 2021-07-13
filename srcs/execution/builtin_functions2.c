@@ -1,35 +1,54 @@
 #include "minishell.h"
 
+char **lsttoarr(t_env *lst)
+{
+	int		i;
+	char	**res;
+	t_env	*tmp;
+
+	tmp = lst;
+	i = ft_lstsize(tmp);
+	res = (char **)ft_calloc(i, sizeof(char *));
+	if (res == NULL)
+		return (NULL);
+	i = -1;
+	while (tmp)
+	{
+		i++;
+		if (tmp->value != NULL)
+			res[i] = triplejoin(tmp->key, "=", triplejoin("\"", tmp->value, "\""));
+		else
+			res[i] = ft_strdup(tmp->key);
+		tmp = tmp->next;
+	}
+	res[i + 1] = NULL;
+	return (res);
+}
+
 void	print_export(t_env *export)
 {
-	while (export)
+	char	**tmp;
+
+	tmp = lsttoarr(export);
+	bubblesort(tmp);
+	while (tmp && *tmp)
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(export->key, 1);
-		if (export->value != NULL)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(export->value, 1);
-			ft_putstr_fd("\"", 1);
-		}
+		ft_putstr_fd(*tmp, 1);
 		ft_putstr_fd("\n", 1);
-		export = export->next;
+		tmp++;
 	}
 }
 
 void	export_execution(t_env *lst, char **args)
 {
-	(void)args;
-	t_env *tmp;
 	int		i;
 	int		len;
 	char	*res1;
 	char	*res2;
+	t_env	*tmp;
 
-	// sort(tmp);
-	// env = get_env_arr(ms);
 	tmp = lst;
-	bubblesort(tmp);
 	if (!args[1])
 		print_export(tmp);
 	else
@@ -40,7 +59,7 @@ void	export_execution(t_env *lst, char **args)
 			if (ft_isenv(args[i][0]))
 			{
 				ft_error("export: ", args[i], -2);
-				return ;
+				i++;
 			}
 			len = ft_strlen(args[i]) - ft_strlen(ft_strchr(args[i], '='));
 			res1 = ft_substr(args[i], 0, len);

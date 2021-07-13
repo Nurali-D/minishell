@@ -13,7 +13,7 @@ int	check_execve_functions(t_msh *ms, t_env *head)
 
 	tmp = ft_getenv(head, "PATH");
 	path = ft_split(tmp->value, ':');
-	env = get_env_arr(ms);
+	env = get_env_arr(ms->env_list);
 	i = -1;
 	while (path[++i])
 	{

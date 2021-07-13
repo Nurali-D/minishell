@@ -30,7 +30,7 @@ FLAGS = -L $(LIB)libft -lft \
 
 $(NAME) : $(OBJS) $(HEAD)*.h
 	@make -C $(LIB)libft all
-	${CC} ${CFLAGS} $(OBJS) $(FLAGS)  -o ${NAME}
+	${CC} ${CFLAGS} $(OBJS) lib/libft/ft_strcmp.c $(FLAGS)  -o ${NAME}
 
 %.o: %.c $(HEAD)
 	$(CC) -c  $< -o $@ -I$(HEAD)

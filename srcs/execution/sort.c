@@ -1,33 +1,33 @@
 #include "minishell.h"
 
-// void	bubblesort(char **values)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		arrlen;
-// 	char	*tmp;
+void	bubblesort(char **values)
+{
+	int		i;
+	int		j;
+	int		arrlen;
+	char	*tmp;
 
-// 	i = 0;
-// 	arrlen = ft_arrlen(values);
-// 	while (i + 1 < arrlen)
-// 	{
-// 		j = 0;
-// 		while (j + 1 < arrlen - i)
-// 		{
-// 			if ((ft_strcmp(values[j], values[j + 1])) > 0)
-// 			{
-// 				tmp = values[j];
-// 				values[j] = values[j + 1];
-// 				values[j + 1] = tmp;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+	i = 0;
+	arrlen = ft_arrlen(values);
+	while (i + 1 < arrlen)
+	{
+		j = 0;
+		while (j + 1 < arrlen - i)
+		{
+			if (values[j + 1] && (ft_strcmp(values[j], values[j + 1])) > 0)
+			{
+				tmp = values[j];
+				values[j] = values[j + 1];
+				values[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
 
 // void	bubblesort(t_env *head){
-//	 t_env *left = head;		         //Первый элемент — это пусть будет голова
+// 	 t_env *left = head;		         //Первый элемент — это пусть будет голова
 //     t_env *right = head->next;          //Второй элемент — это пусть будет следующий за головой элемент
 //     t_env *temp = NULL;              //Временное звено для хранения переставляемого всех значений переставляемого звена
  
@@ -108,40 +108,40 @@
 // 	sort(&((*list)->next));
 // }
 
-void	bubblesort(t_env *head)
-{
-	int i;
-	t_env	*p;
-	t_env	*key;
-	t_env	*result;
+// void	bubblesort(t_env *head)
+// {
+// 	int i;
+// 	t_env	*p;
+// 	t_env	*key;
+// 	t_env	*result;
 
-	result = head;
-	head = head->next;
-	result->next = NULL;
-	while (head->next != NULL)
-	{
-		key = head;
-		head = head->next;
-		if ((i = ft_strcmp(result->key, key->key)) < 0)
-		{
-			key->next = result;
-			result = key;
-		}
-		else
-		{
-			p = result;
-			while (p->next != NULL)
-			{
-				if ((i = ft_strcmp(key->key, p->next->key)) > 0)
-					break;
-				p = p->next;
-			}
-			key->next = p->next;
-			p->next = key;
-		}
-	}
-	head = result;
-}
+// 	result = head;
+// 	head = head->next;
+// 	result->next = NULL;
+// 	while (head->next != NULL)
+// 	{
+// 		key = head;
+// 		head = head->next;
+// 		if ((i = ft_strcmp(result->key, key->key)) < 0)
+// 		{
+// 			key->next = result;
+// 			result = key;
+// 		}
+// 		else
+// 		{
+// 			p = result;
+// 			while (p->next != NULL)
+// 			{
+// 				if ((i = ft_strcmp(key->key, p->next->key)) > 0)
+// 					break;
+// 				p = p->next;
+// 			}
+// 			key->next = p->next;
+// 			p->next = key;
+// 		}
+// 	}
+// 	head = result;
+// }
 
 // void bubblesort(t_env *head) 
 // {
@@ -170,4 +170,43 @@ void	bubblesort(t_env *head)
 // 				list = list->next;
 // 		}
 // 	}
+// }
+
+// t_env	*bubblesort(t_env *head)
+// {
+// 	t_env *final;
+// 	t_env *first;
+// 	t_env *second;
+// 	t_env *previous;
+// 	t_env *tmp;
+
+// 	final = NULL;
+// 	while (final != head)
+// 	{
+// 		printf("%p \n", head);
+// 		previous = NULL;
+// 		second = head->next;
+// 		first = head;
+// 		while (second != final)
+// 		{
+// 			// printf("%p \n", head);
+// 			if ((ft_strcmp(first->key, second->key)) > 0)
+// 			{
+// 				first->next = second->next;
+// 				second->next = first;
+// 				tmp = second;
+// 				second = first;
+// 				first = tmp;
+// 				if (previous == NULL)
+// 					head = first;
+// 				else
+// 					previous->next = first;
+// 			}
+// 			previous = first;
+// 			first = second;
+// 			second = second->next;
+// 		}
+// 		final = first;
+// 	}
+// 	return (head);
 // }
