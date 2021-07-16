@@ -1,92 +1,97 @@
-#include "minishell.h"
+ #include "minishell.h"
 
-int	check_execve_functions(t_msh *ms, t_env *head)
+int	check_stat(char **args)
 {
-	char			**env;
-	DIR				*dir;
-	struct dirent	*dir_entry;
-	char			**path;
-	t_env			*tmp;
-	int				i;
-	int				len;
-	pid_t			pid;
+	int			status;
+	struct stat	buf;
 
-	tmp = ft_getenv(head, "PATH");
-	path = ft_split(tmp->value, ':');
-	env = get_env_arr(ms->env_list);
-	i = -1;
-	while (path[++i])
+	status = stat(args[0], &buf);
+	if (status == 0)
 	{
-		if ((ft_strncmp(ms->tokens->args[0], path[i], ft_strlen(path[i]))) == 0)
+		if ((buf.st_mode & S_IFDIR))
 		{
-			dir = opendir(path[i]);
-			len = ft_strlen(path[i]);
-			dir_entry = readdir(dir);
-			while (dir_entry != NULL)
-			{
-				if ((ft_strcmp(&ms->tokens->args[0][len + 1],
-						dir_entry->d_name)) == 0)
-				{
-					pid = fork();
-					if (pid != 0)
-						wait(0);
-					if (pid == 0)
-						execve(ms->tokens->args[0], ms->tokens->args, env);
-					return (1);
-				}
-				dir_entry = readdir(dir);
-			}
-			closedir(dir);
+			ft_error(args[0], "", "is a directory",  0);
+			return (0);
+		}
+		else if (!(buf.st_mode & S_IXUSR))
+		{
+			ft_error(args[0], "", strerror(EACCES),  0);
+			return (0);
 		}
 	}
-	i = -1;
-	while (path[++i])
+	return (1);
+}
+
+void	check_fullpath_functions(char **args, t_env *head)
+{
+	int			status;
+	char		**env;
+	pid_t		pid;
+
+	if (!(check_stat(args)))
+		return ;
+	env = get_env_arr(head);
+	pid = fork();
+	if (pid != 0)
+		wait(0);
+	if (pid == 0)
 	{
-		dir = opendir(path[i]);
-		if (dir != NULL)
+		// signal(SIGINT, SIG_DFL);
+		// signal(SIGQUIT, SIG_DFL);
+		status = execve(args[0], args, env);
+		if (status == -1)
 		{
-			dir_entry = readdir(dir);
-			while (dir_entry != NULL)
+			ft_error(args[0], "", strerror(errno),  0);
+			return ;
+		}
+	}
+}
+
+int	check_execve_functions(char **args, t_env *head)
+{
+	int				i;
+	char			**env;
+	char			**path;
+	pid_t			pid;
+	t_env			*tmp;
+	DIR				*dir;
+	struct dirent	*dir_entry;
+
+	tmp = NULL;
+	path = NULL;
+	tmp = ft_getenv(head, "PATH");
+	if (tmp != NULL)
+	{
+		path = ft_split(tmp->value, ':');
+		env = get_env_arr(head);
+		i = -1;
+		while (path[++i])
+		{
+			dir = opendir(path[i]);
+			if (dir != NULL)
 			{
-				if ((ft_strcmp(ms->tokens->args[0], dir_entry->d_name)) == 0)
-				{
-					ms->tokens->args[0] = triplejoin(path[i],
-							"/", ms->tokens->args[0]);
-					pid = fork();
-					if (pid != 0)
-						wait(0);
-					if (pid == 0)
-						execve(ms->tokens->args[0], ms->tokens->args, env);
-					return (1);
-				}
 				dir_entry = readdir(dir);
+				while (dir_entry != NULL)
+				{
+					if ((ft_strcmp(args[0], dir_entry->d_name)) == 0)
+					{
+						args[0] = triplejoin(path[i], "/", args[0]);
+						pid = fork();
+						if (pid != 0)
+							wait(0);
+						if (pid == 0)
+						{
+							// signal(SIGINT, SIG_DFL);
+							// signal(SIGQUIT, SIG_DFL);
+							execve(args[0], args, env);
+						}
+						return (1);
+					}
+					dir_entry = readdir(dir);
+				}
+				closedir(dir);
 			}
-			closedir(dir);
 		}
 	}
 	return (0);
-}
-
-void	check_functions(t_msh *ms)
-{
-	// if ((ft_strchr(ms->tokens->args[0], '/')) != NULL)
-	// 	ft_error(ms->tokens->args[0], "\0", 2);
-	if ((ft_strcmp(ms->tokens->args[0], "echo")) == 0)
-		echo_execution(ms->tokens->args, 1);
-	else if ((ft_strcmp(ms->tokens->args[0], "cd")) == 0)
-		cd_execution(ms->tokens->args, ms->env_list);
-	else if ((ft_strcmp(ms->tokens->args[0], "pwd")) == 0)
-		pwd_execution();
-	else if ((ft_strcmp(ms->tokens->args[0], "export")) == 0)
-		export_execution(ms->env_list, ms->tokens->args);
-	else if ((ft_strcmp(ms->tokens->args[0], "unset")) == 0)
-		unset_execution(ms->env_list, ms->tokens->args);
-	else if ((ft_strcmp(ms->tokens->args[0], "env")) == 0)
-		env_execution(ms->env_list, ms->tokens->args);
-	else if ((ft_strcmp(ms->tokens->args[0], "exit")) == 0)
-		exit_execution();
-	else if ((check_execve_functions(ms, ms->env_list)))
-		;
-	else
-		ft_error(ms->tokens->args[0], NULL, -1);
 }

@@ -1,7 +1,10 @@
 #include "minishell.h"
 
-void	echo_execution(char **args, int i)
+void	echo_execution(char **args)
 {
+	int	i;
+
+	i = 1;
 	while (args[i] && (ft_strcmp(args[i], "-n")) == 0)
 		i++;
 	while (args[i])
@@ -24,16 +27,16 @@ void	cd_execution(char **args, t_env *head)
 	{
 		tmp->value = getcwd(NULL, 0);
 		if (tmp->value == NULL)
-			ft_error("cd: ", args[1], errno);
+			ft_error("cd: ", args[1], strerror(errno), 0);
 		i = chdir(args[1]);
 		if (i == -1)
-			ft_error("cd: ", args[1], errno);
+			ft_error("cd: ", args[1], strerror(errno), 0);
 	}
 	tmp = ft_getenv(head, "PWD");
 	if (tmp)
 	{
 		if (tmp->value == NULL)
-			ft_error("cd: ", args[1], errno);
+			ft_error("cd: ", args[1], strerror(errno), 0);
 		tmp->value = getcwd(NULL, 0);
 	}
 }
@@ -52,7 +55,7 @@ void	pwd_execution(void)
 void	env_execution(t_env *env, char **args)
 {
 	if (args[1])
-		ft_error("env: ", args[1], ENOTSUP);
+		ft_error("env: ", args[1], strerror(ENOENT), 0);
 	else
 	{
 		while (env)
