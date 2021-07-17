@@ -64,10 +64,18 @@ char	*treat_dollar(char *str, int *i, t_env *env)
 	int		j;
 	char	*tmp;
 	char	*tmp2;
+	
 	j = *i;
+	if (str[j + 1] == '?')
+	{
+		str = replace_question_mark(str, i);
+		return (str);
+	}
 	while (str[++*i])
+	{
 		if (!is_key(str[*i]))
 			break;
+	}
 	if (*i == j + 1)
 		return (str);
 	tmp = ft_substr(str, j + 1, *i - j - 1);
