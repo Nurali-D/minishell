@@ -26,6 +26,8 @@
 # define REDIRECT_ST_INPUT 5
 # define HEREDOC 6
 
+int	g_status;
+
 typedef struct s_env
 {
 	char			*key;
@@ -67,6 +69,7 @@ void	treat_redirections(t_msh *ms, int *i, int j);
 void	treat_separator(t_msh *ms, int i, int j, int type);
 int		check_single_quotes(char *line, int *i);
 int		check_double_quotes(char *line, int *i);
+char	*replace_question_mark(char *str, int *i);
 
 /*
 ** Exec functions

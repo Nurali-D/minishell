@@ -22,8 +22,8 @@ int	parse_line(t_msh *ms)
 	{
 		if (ms->line[i] == '\'')
 			ms->line = treat_single_quotes(ms->line, &i);
-		else if (ms->line[i] == '\\')
-			ms->line = treat_slash(ms->line, &i);
+		// else if (ms->line[i] == '\\')
+		// 	ms->line = treat_slash(ms->line, &i);
 		else if (ms->line[i] == '"')
 			ms->line = treat_double_quotes(ms->line, &i, ms->env_list);
 		else if (ms->line[i] == '$')
@@ -33,24 +33,24 @@ int	parse_line(t_msh *ms)
 			treat_separator(ms, i, j, PIPE);
 			j = i + 1;
 		}
-		else if (ms->line[i] == '>' || ms->line[i] == '<')
-		{
-			treat_redirections(ms, &i, j);
-			j = i + 1;
-		}
+		// else if (ms->line[i] == '>' || ms->line[i] == '<')
+		// {
+		// 	treat_redirections(ms, &i, j);
+		// 	j = i + 1;
+		// }
 	}
 	add_command_to_tokens(ms, j, i);
-	// t_token *tmp = ms->tokens;
-	// while (tmp)
-	// {
-	// 	printf("token %d\n", tmp->type);
-	// 	if (tmp->args)
-	// 	{
-	// 		for (int k = 0; tmp->args[k]; k++)
-	// 			printf("args[%d] = %s\n", k, tmp->args[k]);
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// printf("%s\n", ms->line);
+	t_token *tmp = ms->tokens;
+	while (tmp)
+	{
+		printf("token %d\n", tmp->type);
+		if (tmp->args)
+		{
+			for (int k = 0; tmp->args[k]; k++)
+				printf("args[%d] = %s\n", k, tmp->args[k]);
+		}
+		tmp = tmp->next;
+	}
+	printf("%s\n", ms->line);
 	return (0);
 }

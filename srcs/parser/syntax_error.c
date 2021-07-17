@@ -79,12 +79,12 @@ int	check_for_syntax_errors(t_msh *ms)
 	{
 		if (ms->line[i] == '\'' && check_single_quotes(ms->line, &i) == 1)
 			return (1);
-		else if (ms->line[i] == '\\')
-			i += 1;
+		// else if (ms->line[i] == '\\')
+		// 	i += 1;
 		else if (ms->line[i] == '"' && check_double_quotes(ms->line, &i) == 1)
 			return (1);
-		else if (ms->line[i] == ';')
-			return (check_semicolon());
+		// else if (ms->line[i] == ';')
+		// 	return (check_semicolon());
 		else if (ms->line[i] == '|' && check_pipe(ms->line, i) == 1)
 			return (1);
 		else if ((ms->line[i] == '>' || ms->line[i] == '<')
