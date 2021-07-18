@@ -7,6 +7,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <dirent.h>
+# include <sys/types.h>
 # include <sys/errno.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -39,6 +40,9 @@ typedef struct s_token
 {
 	int				type;
 	char			**args;
+	int				fd_in;
+	int				fd_out;
+	int				fd_err;
 	struct s_token	*next;
 }					t_token;
 
@@ -60,16 +64,21 @@ int		parse_line(t_msh *ms);
 int		check_for_syntax_errors(t_msh *ms);
 void	error_function(t_msh *ms, char *error);
 char	*treat_single_quotes(char *str, int *i);
-char	*treat_slash(char *str, int *i);
 char	*treat_double_quotes(char *str, int *i, t_env *env);
 char	*treat_dollar(char *str, int *i, t_env *env);
-char	**get_args(char *line, int i);
+char	**get_args_fd(char *str, t_token *token);
 void	put_to_tokens_list(t_msh *ms, t_token *new);
 void	treat_redirections(t_msh *ms, int *i, int j);
-void	treat_separator(t_msh *ms, int i, int j, int type);
 int		check_single_quotes(char *line, int *i);
 int		check_double_quotes(char *line, int *i);
 char	*replace_question_mark(char *str, int *i);
+void	find_redirections(char **str, t_token *token, char c);
+int		find_last_redirection(char *str, char c);
+void	cut_redirection_from_str(char **names, char **str, int i);
+void	save_fd_to_token(char **filenames, char **heredoc_limiters,
+							t_token *token, int last);
+void	read_from_heredoc(char **hrd_lim);
+char	*check_infiles(char **filenames);
 
 /*
 ** Exec functions

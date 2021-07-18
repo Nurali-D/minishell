@@ -22,18 +22,22 @@ void	free_tokens(t_token *tokens)
 
 void	parse_execute(t_msh *ms)
 {
-	while (1)
-	{
-		ms->line = readline(ms->prompt);
+	// while (1)
+	// {
+		// ms->line = readline(ms->prompt);
+		ms->line = ft_strdup("echo \"|\"|<f1<<a cat <f2 -e <f1");
 		if (ms->line[0] != '\0')
 		{
-			add_history(ms->line);
+			// add_history(ms->line);
 			if (parse_line(ms) == 0)
-				check_functions(ms);
+			{
+				// check_functions(ms);
+					;
+			}
 		}
 		free_tokens(ms->tokens);
 		ms->tokens = NULL;
 		if (ms->line)
 			free(ms->line);
-	}
+	// }
 }

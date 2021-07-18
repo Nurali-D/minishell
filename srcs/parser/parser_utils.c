@@ -29,6 +29,8 @@ char	*treat_single_quotes(char *str, int *i)
 	j = *i;
 	while (str[++*i])
 	{
+		if (str[*i] == '|')
+			str[*i] = (char)179;
 		if (str[*i] == '\'')
 			break;
 	}
@@ -63,6 +65,8 @@ char	*treat_double_quotes(char *str, int *i, t_env *env)
 	j = *i;
 	while (str[++*i])
 	{
+		if (str[*i] == '|')
+			str[*i] = (char)179;
 		if (str[*i] == '\\' && (str[*i + 1] == '\"'
 				|| str[*i + 1] == '$' || str[*i + 1] == '\\'))
 			str = treat_slash(str, i);

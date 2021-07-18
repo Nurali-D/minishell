@@ -8,7 +8,7 @@ int	check_semicolon(void)
 
 int is_separator(char c)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>')
+	if (c == ' ' || c == '|')
 		return (1);
 	return (0);
 }
