@@ -7,14 +7,6 @@ int	file_exist(char *filename)
 	return (stat(filename, &buf) == 0);
 }
 
-// int	is_regular_file(char *path)
-// {
-// 	struct stat	path_stat;
-
-// 	stat(path, &path_stat);
-// 	return (S_ISREG(path_stat.st_mode));
-// }
-
 int	permission_to_read(char *filename)
 {
 	struct stat	buf;

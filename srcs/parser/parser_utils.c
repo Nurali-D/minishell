@@ -32,7 +32,7 @@ char	*treat_single_quotes(char *str, int *i)
 		if (str[*i] == '|')
 			str[*i] = (char)179;
 		if (str[*i] == '\'')
-			break;
+			break ;
 	}
 	tmp = str;
 	str = delete_quotes(str, *i, j);
@@ -71,7 +71,7 @@ char	*treat_double_quotes(char *str, int *i, t_env *env)
 				|| str[*i + 1] == '$' || str[*i + 1] == '\\'))
 			str = treat_slash(str, i);
 		if (str[*i] == '\"')
-			break;
+			break ;
 		if (str[*i] == '$')
 			str = treat_dollar(str, i, env);
 	}

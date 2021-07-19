@@ -16,8 +16,6 @@ void	cut_redirection_from_str(char **names, char **str, int n)
 	printf("%s\n", *str);
 }
 
-
-
 void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
 							t_token *token, int last)
 {

@@ -9,7 +9,7 @@ static int	is_key(char c)
 
 char	*is_key_in_env(char *key, t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
 	while (tmp)
@@ -20,6 +20,7 @@ char	*is_key_in_env(char *key, t_env *env)
 	}
 	return (NULL);
 }
+
 char	*ft_strjoin2(char const *s1, char const *s2)
 {
 	char	*res;
@@ -64,7 +65,7 @@ char	*treat_dollar(char *str, int *i, t_env *env)
 	int		j;
 	char	*tmp;
 	char	*tmp2;
-	
+
 	j = *i;
 	if (str[j + 1] == '?')
 	{

@@ -25,7 +25,7 @@ void	parse_execute(t_msh *ms)
 	// while (1)
 	// {
 		// ms->line = readline(ms->prompt);
-		ms->line = ft_strdup("echo \"|\"|<f1<<a cat <f2 -e <f1<<b");
+		ms->line = ft_strdup("< f1 echo \"|\" <<    f4| cat >   f2>  f5 -e  >> f3");
 		if (ms->line[0] != '\0')
 		{
 			// add_history(ms->line);

@@ -100,7 +100,6 @@ void	save_fd_out(char **str, t_token *token, int s, int d)
 		cut_redirection_from_str(filenames_append, str, 2);
 	}
 	save_fdout_to_token(filenames_out, filenames_append, token, last_red);
-
 }
 
 void	find_redirections(char **str, t_token *token, char c)
@@ -125,6 +124,6 @@ void	find_redirections(char **str, t_token *token, char c)
 	}
 	if (c == '<' && (single_red || double_red))
 		save_fd_in(str, token, single_red, double_red);
-	else
+	else if (c == '>' && (single_red || double_red))
 		save_fd_out(str, token, single_red, double_red);
 }

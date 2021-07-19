@@ -79,6 +79,9 @@ void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
 							t_token *token, int last);
 void	read_from_heredoc(char **hrd_lim);
 char	*check_infiles(char **filenames);
+int		file_exist(char *filename);
+void	save_fdout_to_token(char **filenames, char **append,
+							t_token *token, int last);
 
 /*
 ** Exec functions

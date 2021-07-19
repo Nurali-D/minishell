@@ -38,7 +38,11 @@ void	make_tokens(t_msh *ms)
 	int		i;
 
 	splitted = ft_split(ms->line, '|');
+	// for (int i = 0; splitted[i]; i++) //
+	// 	printf("s[%d] = %s\n", i, splitted[i]); //
 	change_179(splitted);
+	// for (int i = 0; splitted[i]; i++) //
+	// 	printf("s[%d] = %s\n", i, splitted[i]); //
 	i = -1;
 	while (splitted[++i])
 	{
@@ -53,7 +57,7 @@ int	parse_line(t_msh *ms)
 	i = -1;
 	// if (check_for_syntax_errors(ms))
 	// 	return (1);
-	printf("%s /%zu\n", ms->line, ft_strlen(ms->line));
+	printf("%s /%zu\n", ms->line, ft_strlen(ms->line)); //
 	while (ms->line && ms->line[++i])
 	{
 		if (ms->line[i] == '\'')
@@ -63,21 +67,21 @@ int	parse_line(t_msh *ms)
 		else if (ms->line[i] == '$')
 			ms->line = treat_dollar(ms->line, &i, ms->env_list);
 	}
-	make_tokens(ms);
-	t_token *tmp = ms->tokens;
-	while (tmp)
+	make_tokens(ms); //
+	t_token *tmp = ms->tokens;//
+	while (tmp)//
 	{
-		printf("token %d\n", tmp->type);
-		if (tmp->args)
+		printf("token %d\n", tmp->type); //
+		if (tmp->args)//
 		{
-			for (int k = 0; tmp->args[k]; k++)
-				printf("args[%d] = %s\n", k, tmp->args[k]);
-			printf("fd_err = %d, fd_in = %d, fd_out = %d\n", tmp->fd_err, tmp->fd_in, tmp->fd_out);
+			for (int k = 0; tmp->args[k]; k++)//
+				printf("args[%d] = %s\n", k, tmp->args[k]);//
+			printf("fd_err = %d, fd_in = %d, fd_out = %d\n", tmp->fd_err, tmp->fd_in, tmp->fd_out);//
 
 		}
-		tmp = tmp->next;
+		tmp = tmp->next;//
 	}
-	printf("%s /%zu\n", ms->line, ft_strlen(ms->line));
+	printf("%s /%zu\n", ms->line, ft_strlen(ms->line));//
 
-	return (0);
+	return (0);//
 }
