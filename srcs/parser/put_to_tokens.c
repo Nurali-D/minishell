@@ -5,7 +5,7 @@ char	**get_args_fd(char *str, t_token *token)
 	char	**ret;
 
 	find_redirections(&str, token, '<');
-	// find_redirections(&str, token, '>');
+	find_redirections(&str, token, '>');
 	ret = ft_split(str, ' ');
 	return (ret);
 }

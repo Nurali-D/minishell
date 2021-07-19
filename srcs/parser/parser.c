@@ -29,12 +29,14 @@ void	change_179(char **s)
 				s[i][j] = '|';
 		}
 	}
+	printf("s = %s\n", *s);
 }
 
 void	make_tokens(t_msh *ms)
 {
 	char	**splitted;
 	int		i;
+
 	splitted = ft_split(ms->line, '|');
 	change_179(splitted);
 	i = -1;

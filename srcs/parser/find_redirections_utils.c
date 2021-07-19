@@ -18,7 +18,8 @@ void	cut_redirection_from_str(char **names, char **str, int n)
 
 
 
-void	save_fd_to_token(char **filenames, char **heredoc_limiters, t_token *token, int last)
+void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
+							t_token *token, int last)
 {
 	char	*file;
 
@@ -26,7 +27,7 @@ void	save_fd_to_token(char **filenames, char **heredoc_limiters, t_token *token,
 	file = check_infiles(filenames);
 	if (file == NULL)
 	{
-		unlink("heredoc-temp");
+		unlink("heredoc_temp");
 		token->fd_err = -1;
 		return ;
 	}

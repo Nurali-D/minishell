@@ -24,7 +24,7 @@ int	check_double_quotes(char *line, int *i)
 	j = *i;
 	while (line && line[++j])
 	{
-		if (line[j] == '"' && i > 0 && line[j - 1] != '\\')
+		if (line[j] == '"' && j > 0 && line[j - 1] != '\\')
 		{
 			*i = j;
 			return 0;

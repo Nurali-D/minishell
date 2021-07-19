@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	**get_filenames_in(char **str, int s)
+char	**get_filenames(char **str, int s, char c)
 {
 	char	**filenames;
 	int		i;
@@ -12,12 +12,12 @@ char	**get_filenames_in(char **str, int s)
 	k = 0;
 	while ((*str)[++i])
 	{
-		if ((*str)[i] == '<' && (*str)[i + 1] != '<' && (*str)[i - 1] != '<')
+		if ((*str)[i] == c && (*str)[i + 1] != c && (*str)[i - 1] != c)
 		{
 			j = i;
 			while ((*str)[++j])
 			{
-				if ((*str)[j] == ' ' || (*str)[j] == '<')
+				if ((*str)[j] == ' ' || (*str)[j] == c)
 					break ;
 			}
 			filenames[k] = ft_substr((*str), i + 1, j - i - 1);
@@ -29,33 +29,33 @@ char	**get_filenames_in(char **str, int s)
 	return (filenames);
 }
 
-char	**get_heredoc_limiters(char **str, int d)
+char	**get_limiters_files(char **str, int d, char c)
 {
-	char	**heredoc_limiters;
+	char	**lims_files;
 	int		i;
 	int		j;
 	int		k;
 
-	heredoc_limiters = (char **)malloc(sizeof(char *) * (d + 1));
+	lims_files = (char **)malloc(sizeof(char *) * (d + 1));
 	i = -1;
 	k = 0;
 	while ((*str)[++i])
 	{
-		if ((*str)[i] == '<' && (*str)[i + 1] == '<')
+		if ((*str)[i] == c && (*str)[i + 1] == c)
 		{
 			i++;
 			j = i;
 			while ((*str)[++j])
 			{
-				if ((*str)[j] == ' ' || (*str)[j] == '<')
+				if ((*str)[j] == ' ' || (*str)[j] == c)
 					break ;
 			}
-			heredoc_limiters[k] = ft_substr((*str), i + 1, j - i - 1);
+			lims_files[k] = ft_substr((*str), i + 1, j - i - 1);
 			k++;
 		}
 	}
-	heredoc_limiters[k] = NULL;
-	return (heredoc_limiters);
+	lims_files[k] = NULL;
+	return (lims_files);
 }
 
 void	save_fd_in(char **str, t_token *token, int s, int d)
@@ -69,24 +69,39 @@ void	save_fd_in(char **str, t_token *token, int s, int d)
 	last_red = find_last_redirection(*str, '<');
 	if (s)
 	{
-		filenames_in = get_filenames_in(str, s);
+		filenames_in = get_filenames(str, s, '<');
 		cut_redirection_from_str(filenames_in, str, 1);
 	}
 	if (d)
 	{
-		heredoc_limiters = get_heredoc_limiters(str, d);
+		heredoc_limiters = get_limiters_files(str, d, '<');
 		cut_redirection_from_str(heredoc_limiters, str, 2);
 	}
-	save_fd_to_token(filenames_in, heredoc_limiters, token, last_red);
+	save_fdin_to_token(filenames_in, heredoc_limiters, token, last_red);
 }
 
-// void	save_fd_out(char **str, t_token *s_token, int s, int d)
-// {
-// 	char	**filenames_out;
-// 	char	**filenames_append;
+void	save_fd_out(char **str, t_token *token, int s, int d)
+{
+	char	**filenames_out;
+	char	**filenames_append;
+	int		last_red;
 
+	filenames_out = NULL;
+	filenames_append = NULL;
+	last_red = find_last_redirection(*str, '>');
+	if (s)
+	{
+		filenames_out = get_filenames(str, s, '>');
+		cut_redirection_from_str(filenames_out, str, 1);
+	}
+	if (d)
+	{
+		filenames_append = get_limiters_files(str, d, '>');
+		cut_redirection_from_str(filenames_append, str, 2);
+	}
+	save_fdout_to_token(filenames_out, filenames_append, token, last_red);
 
-// }
+}
 
 void	find_redirections(char **str, t_token *token, char c)
 {
@@ -110,6 +125,6 @@ void	find_redirections(char **str, t_token *token, char c)
 	}
 	if (c == '<' && (single_red || double_red))
 		save_fd_in(str, token, single_red, double_red);
-	// else
-	// 	save_fd_out(str, token, single_red, double_red);
+	else
+		save_fd_out(str, token, single_red, double_red);
 }

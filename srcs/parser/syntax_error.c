@@ -49,11 +49,11 @@ int	check_pipe(char *line, int i)
 int	check_redirections(char *line, int *i)
 {
 	int		j;
-	int		k;
+	// int		k;
 	char	c;
 
 	c = 0;
-	k = 0;
+	// k = 0;
 	j = *i;
 	while (line[++j])
 	{
