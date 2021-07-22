@@ -37,6 +37,7 @@ void	make_tokens(t_msh *ms)
 	char	**splitted;
 	int		i;
 
+	splitted = NULL;
 	splitted = ft_split(ms->line, '|');
 	// for (int i = 0; splitted[i]; i++) //
 	// 	printf("s[%d] = %s\n", i, splitted[i]); //
@@ -47,7 +48,9 @@ void	make_tokens(t_msh *ms)
 	while (splitted[++i])
 	{
 		add_command_to_tokens(ms, splitted[i]);
+		free(splitted[i]);
 	}
+	free(splitted);
 }
 
 int	parse_line(t_msh *ms)
@@ -57,7 +60,7 @@ int	parse_line(t_msh *ms)
 	i = -1;
 	// if (check_for_syntax_errors(ms))
 	// 	return (1);
-	printf("%s /%zu\n", ms->line, ft_strlen(ms->line)); //
+	// printf("%s /%zu\n", ms->line, ft_strlen(ms->line)); //
 	while (ms->line && ms->line[++i])
 	{
 		if (ms->line[i] == '\'')
@@ -67,7 +70,7 @@ int	parse_line(t_msh *ms)
 		else if (ms->line[i] == '$')
 			ms->line = treat_dollar(ms->line, &i, ms->env_list);
 	}
-	make_tokens(ms); //
+	make_tokens(ms);
 	t_token *tmp = ms->tokens;//
 	while (tmp)//
 	{

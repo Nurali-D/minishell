@@ -12,6 +12,7 @@ void	free_tokens(t_token *tokens)
 		i = -1;
 		while (tmp->args && tmp->args[++i])
 			free(tmp->args[i]);
+		free(tmp->args);
 		tmp2 = tmp;
 		tmp = tmp->next;
 		free(tmp2);
@@ -25,7 +26,7 @@ void	parse_execute(t_msh *ms)
 	// while (1)
 	// {
 		// ms->line = readline(ms->prompt);
-		ms->line = ft_strdup("< f1 echo \"|\" <<    f4| cat >   f2>  f5 -e  >> f3");
+		ms->line = ft_strdup("<f1 <f2 cat|wc >f3 >>f4");
 		if (ms->line[0] != '\0')
 		{
 			// add_history(ms->line);

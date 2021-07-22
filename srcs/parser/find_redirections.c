@@ -12,7 +12,8 @@ char	**get_filenames(char **str, int s, char c)
 	k = 0;
 	while ((*str)[++i])
 	{
-		if ((*str)[i] == c && (*str)[i + 1] != c && (*str)[i - 1] != c)
+		if ((*str)[i] == c && (i < (int)ft_strlen(*str) && (*str)[i + 1] != c)
+				&& ((i - 1 >= 0 && (*str)[i - 1] != c) || i == 0))
 		{
 			j = i;
 			while ((*str)[++j])
@@ -21,7 +22,7 @@ char	**get_filenames(char **str, int s, char c)
 					break ;
 			}
 			filenames[k] = ft_substr((*str), i + 1, j - i - 1);
-			printf("%s\n", filenames[k]);
+			printf("%s\n", filenames[k]); //
 			k++;
 		}
 	}
@@ -78,6 +79,11 @@ void	save_fd_in(char **str, t_token *token, int s, int d)
 		cut_redirection_from_str(heredoc_limiters, str, 2);
 	}
 	save_fdin_to_token(filenames_in, heredoc_limiters, token, last_red);
+	if (filenames_in)
+		free_array(filenames_in);
+	if (heredoc_limiters)
+		free_array(heredoc_limiters);
+
 }
 
 void	save_fd_out(char **str, t_token *token, int s, int d)
@@ -100,6 +106,10 @@ void	save_fd_out(char **str, t_token *token, int s, int d)
 		cut_redirection_from_str(filenames_append, str, 2);
 	}
 	save_fdout_to_token(filenames_out, filenames_append, token, last_red);
+	if (filenames_out)
+		free_array(filenames_out);
+	if (filenames_append)
+		free_array(filenames_append);
 }
 
 void	find_redirections(char **str, t_token *token, char c)

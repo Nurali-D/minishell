@@ -19,6 +19,7 @@ char	*replace_question_mark(char *str, int *i)
 	free(before_question);
 	free(status);
 	free(after_question);
+	free(str);
 	return (ret);
 
 }
