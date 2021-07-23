@@ -1,35 +1,41 @@
 #include "minishell.h"
 
-int	check_single_quotes(char *line, int *i)
+int	check_after_redirection(char *str, int i)
 {
-	int	j;
+	int	k;
 
-	j = *i;
-	while (line && line[++j])
-	{
-		if (line[j] == '\'')
+	k = i;
+	while (str[++k])
+	{	if ((str[i] == '<' && str[i + 1] == '<') || (str[i] ==  '>' && str[i + 1] == '>'))
+			k++;
+		if (ft_isprint(str[k]) && (str[k] != ' '
+				&& str[k] != '|' && str[k] != '<' && str[k] != '>'))
+			return (0);
+		else if (str[k] == '|')
 		{
-			*i = j;
-			return 0;
+			write(STDERR_FILENO, "bash: syntax error near unexpected token `|'\n", 45);
+			return (1);
+		}
+		else if (str[k] == '>' || str[k] == '<')
+		{
+			if (str[k] == '>' && str[k + 1] != '>')
+				write(STDERR_FILENO, "bash: syntax error near unexpected token `>'\n", 45);
+			else if (str[k] == '<' && str[k + 1] != '<')
+				write(STDERR_FILENO, "bash: syntax error near unexpected token `<'\n", 45);
+			else if (str[k] == '>' && str[k + 1] == '>')
+				write(STDERR_FILENO, "bash: syntax error near unexpected token `>>'\n", 46);
+			else if (str[k] == '<' && str[k + 1] == '<')
+				write(STDERR_FILENO, "bash: syntax error near unexpected token `<<'\n", 46);
+			return (1);
 		}
 	}
-	printf("Not interpret unclosed quotes!\n");
-	return 1;
+	write(STDERR_FILENO, "bash: syntax error near unexpected token `newline'\n", 51);
+	return (1);
 }
 
-int	check_double_quotes(char *line, int *i)
+int	check_redirection(char *str, int i)
 {
-	int	j;
-
-	j = *i;
-	while (line && line[++j])
-	{
-		if (line[j] == '"' && j > 0 && line[j - 1] != '\\')
-		{
-			*i = j;
-			return 0;
-		}
-	}
-	printf("Not interpret unclosed quotes!\n");
-	return 1;
+	if (check_after_redirection(str, i))
+		return (1);
+	return (0);
 }

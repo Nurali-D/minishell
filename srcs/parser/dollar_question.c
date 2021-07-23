@@ -21,5 +21,4 @@ char	*replace_question_mark(char *str, int *i)
 	free(after_question);
 	free(str);
 	return (ret);
-
 }

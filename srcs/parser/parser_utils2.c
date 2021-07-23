@@ -21,20 +21,6 @@ char	*is_key_in_env(char *key, t_env *env)
 	return (NULL);
 }
 
-char	*ft_strjoin2(char const *s1, char const *s2)
-{
-	char	*res;
-
-	if (!s1 || !s2)
-		return (NULL);
-	res = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (res == NULL)
-		return (NULL);
-	ft_memcpy(res, s1, ft_strlen(s1));
-	ft_memcpy(&res[ft_strlen(s1)], s2, ft_strlen(s2));
-	res[ft_strlen(s1) + ft_strlen(s2)] = '\0';
-	return (res);
-}
 char	*replace_key(char *str, char *value, int *i, int j)
 {
 	char	*before;
@@ -44,11 +30,11 @@ char	*replace_key(char *str, char *value, int *i, int j)
 
 	before = ft_substr(str, 0, j);
 	after = ft_strdup(str + *i);
-	tmp = ft_strjoin2(before, value);
+	tmp = ft_strjoin(before, value);
 	*i = ft_strlen(tmp);
 	tmp2 = tmp;
 	if (after[0] != '\0')
-	tmp = ft_strjoin2(tmp, after);
+	tmp = ft_strjoin(tmp, after);
 	free(str);
 	free(before);
 	free(after);
@@ -77,8 +63,14 @@ char	*treat_dollar(char *str, int *i, t_env *env)
 		return (str);
 	tmp = ft_substr(str, j + 1, *i - j - 1);
 	tmp2 = is_key_in_env(tmp, env);
-	free(tmp);
+	
 	if (tmp2 != NULL)
 		str = replace_key(str, tmp2, i, j);
+	else if (str[j + 1] != ' ')
+	{
+		ft_memmove(&str[j], &str[*i], ft_strlen(&str[*i]) + 1);
+		*i = j - 1;
+	}
+	free(tmp);
 	return (str);
 }

@@ -33,18 +33,18 @@ char	*check_outfiles(char **filenames)
 	{
 		if (is_directory(filenames[i]))
 		{
-			write(STDOUT_FILENO, "bash: ", 6);
-			write(STDOUT_FILENO, filenames[i], ft_strlen(filenames[i]));
-			write(STDOUT_FILENO, ": Is a directory\n", 17);
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, filenames[i], ft_strlen(filenames[i]));
+			write(STDERR_FILENO, ": Is a directory\n", 17);
 			return (NULL);
 		}
 		if (!file_exist(filenames[i]))
 			close(open(filenames[i], O_RDWR | O_CREAT, 0644));
 		if (!permission_to_write(filenames[i]))
 		{
-			write(STDOUT_FILENO, "bash: ", 6);
-			write(STDOUT_FILENO, filenames[i], ft_strlen(filenames[i]));
-			write(STDOUT_FILENO, ": Permission denied\n", 20);
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, filenames[i], ft_strlen(filenames[i]));
+			write(STDERR_FILENO, ": Permission denied\n", 20);
 			return (NULL);
 		}
 	}

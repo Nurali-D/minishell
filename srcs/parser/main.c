@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 	g_status = 123; //testing $?
 	init_ms(&ms);
 	get_env_list(env, &ms);
-	// get_env_arr(&ms);
+	get_env_arr(&ms);
 	parse_execute(&ms);
 	free_env(&ms);
 	return (0);

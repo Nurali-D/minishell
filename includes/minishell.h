@@ -83,6 +83,7 @@ int		file_exist(char *filename);
 void	save_fdout_to_token(char **filenames, char **append,
 							t_token *token, int last);
 void	free_array(char **array);
+int		check_redirection(char *str, int i);
 
 /*
 ** Exec functions
