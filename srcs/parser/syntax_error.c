@@ -13,7 +13,8 @@ int	check_before_pipe(char *str, int i)
 			return (0);
 		else if (str[k] == '|' || str[k] == '<' || str[k] == '>')
 		{
-			write(STDERR_FILENO, "bash: syntax error near unexpected token `|'\n", 45);
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near unexpected token `|'\n", 39);
 			return (1);
 		}
 	}
@@ -33,12 +34,15 @@ int	check_after_pipe(char *str, int i)
 			return (0);
 		else if (str[k] == '|')
 		{
-			write(STDERR_FILENO, "bash: syntax error near unexpected token `|'\n", 45);
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near unexpected token `|'\n", 39);
 			return (1);
 		}
 		else if (str[k] == '<' || str[k] == '>')
 		{
-			write(STDERR_FILENO, "bash: syntax error near unexpected token `newline'\n", 51);
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near ", 18);
+			write(STDERR_FILENO, "unexpected token `newline'\n", 27);
 			return (1);
 		}
 	}

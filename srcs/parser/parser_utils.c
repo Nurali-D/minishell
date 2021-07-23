@@ -27,7 +27,7 @@ char	*treat_single_quotes(char *str, int *i)
 		write(STDERR_FILENO, "unclosed single quotes\n", 23);
 		return (NULL);
 	}
-			delete_quotes(str, *i, j);
+	delete_quotes(str, *i, j);
 	*i -= 2;
 	return (str);
 }
@@ -49,7 +49,7 @@ char	*treat_double_quotes(char *str, int *i, t_env *env)
 			*i -= 1;
 		}
 	}
-		if (*i == (int)ft_strlen(str))
+	if (*i == (int)ft_strlen(str))
 	{
 		free(str);
 		write(STDERR_FILENO, "Not interpret : ", 16);

@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	g_status = 123; //testing $?
+	g_status = 0;
 	init_ms(&ms);
 	get_env_list(env, &ms);
 	get_env_arr(&ms);

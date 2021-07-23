@@ -22,7 +22,6 @@ char	**get_filenames(char **str, int s, char c)
 					break ;
 			}
 			filenames[k] = ft_substr((*str), i + 1, j - i - 1);
-			printf("%s\n", filenames[k]); //
 			k++;
 		}
 	}
@@ -83,7 +82,6 @@ void	save_fd_in(char **str, t_token *token, int s, int d)
 		free_array(filenames_in);
 	if (heredoc_limiters)
 		free_array(heredoc_limiters);
-
 }
 
 void	save_fd_out(char **str, t_token *token, int s, int d)

@@ -26,7 +26,6 @@ void	parse_execute(t_msh *ms)
 	while (1)
 	{
 		ms->line = readline(ms->prompt);
-		// ms->line = ft_strdup("<f1 <$PWD \"cat $?\" $?|\'wc\' >f3 >>f4");
 		if (ms->line[0] != '\0')
 		{
 			add_history(ms->line);

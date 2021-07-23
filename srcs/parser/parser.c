@@ -67,6 +67,9 @@ int	parse_line(t_msh *ms)
 	if (check_for_syntax_errors(ms))
 		return (1);
 	make_tokens(ms);
+	return (0);
+}
+
 	// t_token *tmp = ms->tokens;//
 	// while (tmp)//
 	// {
@@ -81,6 +84,3 @@ int	parse_line(t_msh *ms)
 	// 	tmp = tmp->next;//
 	// }
 	// printf("%s /%zu\n", ms->line, ft_strlen(ms->line));//
-
-	return (0);//
-}

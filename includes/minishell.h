@@ -76,12 +76,12 @@ void	find_redirections(char **str, t_token *token, char c);
 int		find_last_redirection(char *str, char c);
 void	cut_redirection_from_str(char **names, char **str, int i);
 void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
-							t_token *token, int last);
+			t_token *token, int last);
 void	read_from_heredoc(char **hrd_lim);
 char	*check_infiles(char **filenames);
 int		file_exist(char *filename);
 void	save_fdout_to_token(char **filenames, char **append,
-							t_token *token, int last);
+			t_token *token, int last);
 void	free_array(char **array);
 int		check_redirection(char *str, int i);
 

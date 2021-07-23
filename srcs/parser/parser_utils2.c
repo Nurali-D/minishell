@@ -31,9 +31,8 @@ char	*replace_key(char *str, char *value, int *i, int j)
 	before = ft_substr(str, 0, j);
 	after = ft_strdup(str + *i);
 	tmp = ft_strjoin(before, value);
-	*i = ft_strlen(tmp);
+	*i = ft_strlen(tmp) - 1;
 	tmp2 = tmp;
-	if (after[0] != '\0')
 	tmp = ft_strjoin(tmp, after);
 	free(str);
 	free(before);
@@ -42,28 +41,20 @@ char	*replace_key(char *str, char *value, int *i, int j)
 	return (tmp);
 }
 
-char	*treat_dollar(char *str, int *i, t_env *env)
+char	*find_key(char *str, int *i, t_env *env, int j)
 {
-	int		j;
 	char	*tmp;
 	char	*tmp2;
 
-	j = *i;
-	if (str[j + 1] == '?')
-	{
-		str = replace_question_mark(str, i);
-		return (str);
-	}
 	while (str[++*i])
 	{
 		if (!is_key(str[*i]))
-			break;
+			break ;
 	}
 	if (*i == j + 1)
 		return (str);
 	tmp = ft_substr(str, j + 1, *i - j - 1);
 	tmp2 = is_key_in_env(tmp, env);
-	
 	if (tmp2 != NULL)
 		str = replace_key(str, tmp2, i, j);
 	else if (str[j + 1] != ' ')
@@ -73,4 +64,17 @@ char	*treat_dollar(char *str, int *i, t_env *env)
 	}
 	free(tmp);
 	return (str);
+}
+
+char	*treat_dollar(char *str, int *i, t_env *env)
+{
+	int	j;
+
+	j = *i;
+	if (str[j + 1] == '?')
+	{
+		str = replace_question_mark(str, i);
+		return (str);
+	}
+	return (find_key(str, i, env, j));
 }
