@@ -2,8 +2,10 @@
 
 void	delete_quotes(char *str, int i, int j)
 {
-	ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]) + 1);
-	ft_memmove(&str[j], &str[j + 1], ft_strlen(&str[j + 1]) + 1);
+	if (i + 1 <= (int)ft_strlen(str))
+		ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i + 1]) + 1);
+	if (j + 1 <= (int)ft_strlen(str))
+		ft_memmove(&str[j], &str[j + 1], ft_strlen(&str[j + 1]) + 1);
 }
 
 char	*treat_single_quotes(char *str, int *i)

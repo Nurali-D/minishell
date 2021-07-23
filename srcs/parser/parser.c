@@ -39,11 +39,7 @@ void	make_tokens(t_msh *ms)
 
 	splitted = NULL;
 	splitted = ft_split(ms->line, '|');
-	// for (int i = 0; splitted[i]; i++) //
-	// 	printf("s[%d] = %s\n", i, splitted[i]); //
 	change_179(splitted);
-	// for (int i = 0; splitted[i]; i++) //
-	// 	printf("s[%d] = %s\n", i, splitted[i]); //
 	i = -1;
 	while (splitted[++i])
 	{
@@ -60,7 +56,6 @@ int	parse_line(t_msh *ms)
 	i = -1;
 	// if (check_for_syntax_errors(ms))
 	// 	return (1);
-	// printf("%s /%zu\n", ms->line, ft_strlen(ms->line)); //
 	while (ms->line && ms->line[++i])
 	{
 		if (ms->line[i] == '\'')

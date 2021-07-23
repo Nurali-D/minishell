@@ -11,7 +11,7 @@ char	*replace_question_mark(char *str, int *i)
 	before_question = ft_substr(str, 0, *i);
 	status = ft_itoa(g_status);
 	after_question = ft_strdup(str + *i + 2);
-	*i += ft_strlen(status);
+	*i += ft_strlen(status) - 1;
 	ret = ft_strjoin(before_question, status);
 	tmp = ret;
 	ret = ft_strjoin(ret, after_question);
