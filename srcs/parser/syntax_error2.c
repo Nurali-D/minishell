@@ -56,6 +56,7 @@ int	check_redirection(char *str, int i)
 {
 	int	k;
 
+	k = 0;
 	if (check_after_redirection(str, i, k))
 		return (1);
 	return (0);

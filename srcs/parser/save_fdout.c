@@ -57,9 +57,14 @@ void	save_fdout_to_token(char **filenames, char **append,
 	char	*file1;
 	char	*file2;
 
-	file1 = check_outfiles(filenames);
-	file2 = check_outfiles(append);
-	if (file1 == NULL || file2 == NULL)
+	file1 = NULL;
+	file2 = NULL;
+	if (filenames)
+		file1 = check_outfiles(filenames);
+	if (append)
+		file2 = check_outfiles(append);
+	if ((file1 == NULL && filenames != NULL)
+			|| (file2 == NULL && append != NULL))
 	{
 		unlink("heredoc_temp");
 		token->fd_err = -1;

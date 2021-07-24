@@ -23,13 +23,6 @@
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
 
-# define COMMAND 1
-# define PIPE 2
-# define REDIRECT_ST_OUTPUT 3
-# define APPEND 4
-# define REDIRECT_ST_INPUT 5
-# define HEREDOC 6
-
 int	g_status;
 // g_status
 
@@ -44,7 +37,6 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	int				type;
 	char			**args;
 	int				fd_in;
 	int				fd_out;
@@ -59,6 +51,8 @@ typedef struct s_msh
 	char		*prompt;
 	char		*line;
 	char		**env;
+	int			nc;
+	int			i;
 }				t_msh;
 
 /*
@@ -96,7 +90,11 @@ int		check_redirection(char *str, int i);
 */
 int		check_execve_functions(char **args, t_env *head);
 void	check_fullpath_functions(char **args, t_env *head);
-void	check_functions(t_msh *ms);
+void	check_functions(t_token *token, t_env *env_list);
+void	execute_commands(t_msh *ms);
+int		close_fd(int **fd, int n);
+int		make_forks(t_msh *ms, int **fd, int *pid);
+int		exec_command(int **fd, t_token *token, t_msh *ms);
 
 /*
 ** built-in functions

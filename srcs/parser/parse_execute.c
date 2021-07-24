@@ -34,7 +34,7 @@ void	parse_execute(t_msh *ms)
 			{
 				add_history(ms->line);
 				if (parse_line(ms) == 0)
-					check_functions(ms);
+					execute_commands(ms);
 			}
 			free_tokens(ms->tokens);
 			ms->tokens = NULL;

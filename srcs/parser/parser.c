@@ -5,7 +5,6 @@ void	add_command_to_tokens(t_msh *ms, char *str)
 	t_token	*tmp;
 
 	tmp = (t_token *)malloc(sizeof(t_token));
-	tmp->type = COMMAND;
 	tmp->next = NULL;
 	tmp->fd_err = 0;
 	tmp->fd_in = -1;

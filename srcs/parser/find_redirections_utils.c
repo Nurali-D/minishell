@@ -13,7 +13,6 @@ void	cut_redirection_from_str(char **names, char **str, int n)
 		after = address + ft_strlen(names[i]);
 		ft_memmove(address - n, after, ft_strlen(after) + 1);
 	}
-	printf("%s\n", *str);
 }
 
 void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
@@ -21,9 +20,12 @@ void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
 {
 	char	*file;
 
-	read_from_heredoc(heredoc_limiters);
-	file = check_infiles(filenames);
-	if (file == NULL)
+	file = NULL;
+	if (heredoc_limiters)
+		read_from_heredoc(heredoc_limiters);
+	if (filenames)
+		file = check_infiles(filenames);
+	if (file == NULL && filenames != NULL)
 	{
 		unlink("heredoc_temp");
 		token->fd_err = -1;
@@ -43,9 +45,11 @@ int	find_last_redirection(char *str, char c)
 	int	i;
 
 	i = ft_strlen(str) - 1;
-	while (i)
+	while (i >= 0)
 	{
 		if (str[i] == c && (i - 1) >= 0 && str[i - 1] != c)
+			return (1);
+		else if (str[i] == c && i == 0)
 			return (1);
 		else if (str[i] == c && (i - 1) >= 0 && str[i - 1] == c)
 			return (2);

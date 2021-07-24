@@ -13,7 +13,7 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_func
 		find_redirections_utils.c read_from_heredoc.c save_fdout.c\
 
 EXECFILES = execution.c builtin_functions.c builtin_functions2.c error.c utils.c sort.c \
-			lst_utils.c start.c signal.c \
+			lst_utils.c start.c signal.c execute_commands.c exec_command.c make_forks.c \
 
 SRCS = $(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES))
 
