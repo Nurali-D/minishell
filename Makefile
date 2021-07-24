@@ -12,7 +12,8 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_func
 		syntax_error2.c dollar_question.c check_infiles.c find_redirections.c \
 		find_redirections_utils.c read_from_heredoc.c save_fdout.c\
 
-EXECFILES = builtin_functions.c builtin_functions2.c error.c utils.c execution.c sort.c lst_utils.c \
+EXECFILES = execution.c builtin_functions.c builtin_functions2.c error.c utils.c sort.c \
+			lst_utils.c start.c signal.c \
 
 SRCS = $(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES))
 
@@ -31,7 +32,7 @@ FLAGS = -L $(LIB)libft -lft \
 
 $(NAME) : $(OBJS) $(HEAD)*.h
 	@make -C $(LIB)libft all
-	${CC} ${CFLAGS} $(OBJS) $(FLAGS)  -o ${NAME}
+	${CC} ${CFLAGS} $(OBJS) lib/libft/ft_strcmp.c $(FLAGS)  -o ${NAME}
 
 %.o: %.c $(HEAD)
 	$(CC) -c  $< -o $@ -I$(HEAD)

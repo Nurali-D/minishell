@@ -23,20 +23,25 @@ void	free_tokens(t_token *tokens)
 
 void	parse_execute(t_msh *ms)
 {
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &quit_handler);
 	while (1)
 	{
 		ms->line = readline(ms->prompt);
-		if (ms->line[0] != '\0')
+		if (ms->line != NULL)
 		{
-			add_history(ms->line);
-			if (parse_line(ms) == 0)
+			if (ms->line[0] != '\0')
 			{
-				check_functions(ms);
+				add_history(ms->line);
+				if (parse_line(ms) == 0)
+					check_functions(ms);
 			}
+			free_tokens(ms->tokens);
+			ms->tokens = NULL;
+			if (ms->line)
+				free(ms->line);
 		}
-		free_tokens(ms->tokens);
-		ms->tokens = NULL;
-		if (ms->line)
-			free(ms->line);
+		else
+			exit_execution();
 	}
 }

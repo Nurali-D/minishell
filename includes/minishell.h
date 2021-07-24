@@ -12,6 +12,9 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/ioctl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
@@ -28,6 +31,9 @@
 # define HEREDOC 6
 
 int	g_status;
+// g_status
+
+void	rl_replace_line(const char *text, int clear_undo);
 
 typedef struct s_env
 {
@@ -88,13 +94,14 @@ int		check_redirection(char *str, int i);
 /*
 ** Exec functions
 */
-int		check_execve_functions(t_msh *ms, t_env *head);
+int		check_execve_functions(char **args, t_env *head);
+void	check_fullpath_functions(char **args, t_env *head);
 void	check_functions(t_msh *ms);
 
 /*
 ** built-in functions
 */
-void	echo_execution(char **args, int i);
+void	echo_execution(char **args);
 void	cd_execution(char **args, t_env *head);
 void	pwd_execution(void);
 void	env_execution(t_env *env, char **args);
@@ -107,20 +114,28 @@ void	exit_execution(void);
 */
 int		ft_arrlen(char **s);
 int		ft_isenv(int c);
-char	**get_env_arr(t_msh *ms);
+char	**get_env_arr(t_env *export);
 void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
-void	ft_error(char *cmd, char *arg, int err);
+void	ft_error(char *cmd, char *arg, char *err, int flag);
 void	env_error(char *cmd);
 void	bubblesort(char **values);
+void	print_export(t_env *export);
 
 /*
 ** utils for list
 */
 int		ft_lstsize(t_env *lst);
+char	**lsttoarr(t_env *lst);
 void	ft_lstadd_back(t_env *lst, t_env *new);
 void	ft_poplst(t_env *lst, t_env *root);
 t_env	*ft_lstnew(char *key, char *value);
 t_env	*ft_getenv(t_env *head, char *env);
+
+/*
+** signals
+*/
+void	sig_handler(int handler);
+void	quit_handler(int handler);
 
 #endif

@@ -17,23 +17,19 @@ char	*triplejoin(char *s1, char *s2, char *s3)
 	return (res);
 }
 
-char	**get_env_arr(t_msh *ms)
+char	**get_env_arr(t_env *env)
 {
 	int		i;
 	char	**res;
 	t_env	*tmp;
 
-	tmp = ms->env_list;
+	tmp = env;
 	i = ft_lstsize(tmp);
-	res = (char **)ft_calloc(i, sizeof(char *));
-	if (res == NULL)
-		return (NULL);
+	res = (char **)malloc(sizeof(char *) * i);
 	i = -1;
 	while (tmp)
 	{
 		res[++i] = triplejoin(tmp->key, "=", tmp->value);
-		if (res[i] == NULL)
-			return (NULL);
 		tmp = tmp->next;
 	}
 	res[i + 1] = NULL;
