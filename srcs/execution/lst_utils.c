@@ -72,7 +72,7 @@ char	**lsttoarr(t_env *lst)
 
 	tmp = lst;
 	i = ft_lstsize(tmp);
-	res = (char **)malloc(sizeof(char *) * i);
+	res = (char **)malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (tmp)
 	{
