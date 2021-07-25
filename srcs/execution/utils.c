@@ -60,10 +60,17 @@ int	ft_arrlen(char **s)
 	return (i);
 }
 
-int	ft_isenv(int c)
+int	ft_isenv(char *s)
 {
-	if (ft_isalpha(c) || c == '_')
-		return (0);
-	else
-		return (1);
+	int	i;
+
+	i = -1;
+	while (s[++i])
+	{
+		if (!ft_isdigit(s[0]) && ((ft_isalpha(s[i]) || s[i] == '_')))
+			continue ;
+		else
+			return (1);
+	}
+	return (0);
 }

@@ -3,10 +3,12 @@
 void	sig_handler(int handler)
 {
 	(void)handler;
-	rl_replace_line("➜  minishell$ ", 0);
-	rl_redisplay();
 	rl_on_new_line();
-	ft_putendl_fd("\b\b", 1);
+	rl_redisplay();
+	ft_putstr_fd("  \b\b\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
 }
 
 void	quit_handler(int handler)

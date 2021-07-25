@@ -29,6 +29,12 @@ void	add_export(t_env *lst, char **args, int i, int len)
 	temp = lst;
 	len = ft_strlen(args[i]) - ft_strlen(ft_strchr(args[i], '='));
 	name = ft_substr(args[i], 0, len);
+	if (ft_isenv(name))
+	{
+		ft_error("export: ", name, "not a valid identifier", 2);
+		free(name);
+		return ;
+	}
 	value = NULL;
 	if ((ft_strchr(args[i], '=')) != NULL)
 		value = ft_strdup(&args[i][len + 1]);
@@ -46,7 +52,7 @@ void	add_export(t_env *lst, char **args, int i, int len)
 
 void	export_execution(t_env *lst, char **args)
 {
-	int		i;
+	int	i;
 
 	if (!args[1])
 		print_export(lst);
@@ -55,11 +61,6 @@ void	export_execution(t_env *lst, char **args)
 		i = 0;
 		while (args[++i])
 		{
-			if (ft_isenv(args[i][0]))
-			{
-				ft_error("export: ", args[i], NULL, 2);
-				i++;
-			}
 			add_export(lst, args, i, 0);
 		}
 	}
@@ -74,10 +75,10 @@ void	unset_execution(t_env *lst, char **args)
 		i = 0;
 		while (args[++i])
 		{
-			if (ft_isenv(args[i][0]))
+			if (ft_isenv(args[i]))
 			{
 				ft_error("export: ", args[i], "not a valid identifier", 2);
-				return ;
+				continue ;
 			}
 			ft_poplst(ft_getenv(lst, args[i]), lst);
 		}
