@@ -7,6 +7,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <dirent.h>
+# include <sys/types.h>
 # include <sys/errno.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
@@ -22,13 +23,7 @@
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
 
-# define COMMAND 1
-# define PIPE 2
-# define REDIRECT_ST_OUTPUT 3
-# define APPEND 4
-# define REDIRECT_ST_INPUT 5
-# define HEREDOC 6
-
+int	g_status;
 // g_status
 
 void	rl_replace_line(const char *text, int clear_undo);
@@ -42,8 +37,10 @@ typedef struct s_env
 
 typedef struct s_token
 {
-	int				type;
 	char			**args;
+	int				fd_in;
+	int				fd_out;
+	int				fd_err;
 	struct s_token	*next;
 }					t_token;
 
@@ -54,6 +51,8 @@ typedef struct s_msh
 	char		*prompt;
 	char		*line;
 	char		**env;
+	int			nc;
+	int			i;
 }				t_msh;
 
 /*
@@ -65,22 +64,37 @@ int		parse_line(t_msh *ms);
 int		check_for_syntax_errors(t_msh *ms);
 void	error_function(t_msh *ms, char *error);
 char	*treat_single_quotes(char *str, int *i);
-char	*treat_slash(char *str, int *i);
 char	*treat_double_quotes(char *str, int *i, t_env *env);
 char	*treat_dollar(char *str, int *i, t_env *env);
-char	**get_args(char *line, int i);
+char	**get_args_fd(char *str, t_token *token);
 void	put_to_tokens_list(t_msh *ms, t_token *new);
 void	treat_redirections(t_msh *ms, int *i, int j);
-void	treat_separator(t_msh *ms, int i, int j, int type);
 int		check_single_quotes(char *line, int *i);
 int		check_double_quotes(char *line, int *i);
+char	*replace_question_mark(char *str, int *i);
+void	find_redirections(char **str, t_token *token, char c);
+int		find_last_redirection(char *str, char c);
+void	cut_redirection_from_str(char **names, char **str, int i);
+void	save_fdin_to_token(char **filenames, char **heredoc_limiters,
+			t_token *token, int last);
+void	read_from_heredoc(char **hrd_lim);
+char	*check_infiles(char **filenames);
+int		file_exist(char *filename);
+void	save_fdout_to_token(char **filenames, char **append,
+			t_token *token, int last);
+void	free_array(char **array);
+int		check_redirection(char *str, int i);
 
 /*
 ** Exec functions
 */
 int		check_execve_functions(char **args, t_env *head);
 void	check_fullpath_functions(char **args, t_env *head);
-void	check_functions(t_msh *ms);
+void	check_functions(t_token *token, t_env *env_list);
+void	execute_commands(t_msh *ms);
+int		close_fd(int **fd, int n);
+int		make_forks(t_msh *ms, int **fd, int *pid);
+int		exec_command(int **fd, t_token *token, t_msh *ms);
 
 /*
 ** built-in functions

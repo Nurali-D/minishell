@@ -1,35 +1,63 @@
 #include "minishell.h"
 
-int	check_single_quotes(char *line, int *i)
+void	print_redirection_error(char *str, int k)
 {
-	int	j;
-
-	j = *i;
-	while (line && line[++j])
+	if (str[k] == '>' && str[k + 1] != '>')
 	{
-		if (line[j] == '\'')
-		{
-			*i = j;
-			return 0;
-		}
+		write(STDERR_FILENO, "bash: syntax error ", 19);
+		write(STDERR_FILENO, "near unexpected token `>'\n", 26);
 	}
-	printf("Not interpret unclosed quotes!\n");
-	return 1;
+	else if (str[k] == '<' && str[k + 1] != '<')
+	{
+		write(STDERR_FILENO, "bash: syntax error ", 19);
+		write(STDERR_FILENO, "near unexpected token `<'\n", 26);
+	}
+	else if (str[k] == '>' && str[k + 1] == '>')
+	{
+		write(STDERR_FILENO, "bash: syntax error ", 19);
+		write(STDERR_FILENO, "near unexpected token `>>'\n", 27);
+	}
+	else if (str[k] == '<' && str[k + 1] == '<')
+	{
+		write(STDERR_FILENO, "bash: syntax error ", 19);
+		write(STDERR_FILENO, "near unexpected token `<<'\n", 27);
+	}
 }
 
-int	check_double_quotes(char *line, int *i)
+int	check_after_redirection(char *str, int i, int k)
 {
-	int	j;
-
-	j = *i;
-	while (line && line[++j])
+	k = i;
+	while (str[++k])
 	{
-		if (line[j] == '"' && i > 0 && line[j - 1] != '\\')
+		if ((str[i] == '<' && str[i + 1] == '<')
+			|| (str[i] == '>' && str[i + 1] == '>'))
+			k++;
+		if (ft_isprint(str[k]) && (str[k] != ' '
+				&& str[k] != '|' && str[k] != '<' && str[k] != '>'))
+			return (0);
+		else if (str[k] == '|')
 		{
-			*i = j;
-			return 0;
+			write(STDERR_FILENO, "bash: syntax error ", 19);
+			write(STDERR_FILENO, "near unexpected token `|'\n", 26);
+			return (1);
+		}
+		else if (str[k] == '>' || str[k] == '<')
+		{
+			print_redirection_error(str, k);
+			return (1);
 		}
 	}
-	printf("Not interpret unclosed quotes!\n");
-	return 1;
+	write(STDERR_FILENO, "bash: syntax error ", 19);
+	write(STDERR_FILENO, "near unexpected token `newline'\n", 32);
+	return (1);
+}
+
+int	check_redirection(char *str, int i)
+{
+	int	k;
+
+	k = 0;
+	if (check_after_redirection(str, i, k))
+		return (1);
+	return (0);
 }

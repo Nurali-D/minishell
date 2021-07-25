@@ -8,7 +8,7 @@ static t_env	*get_new_list_element(t_env *new, t_env *head)
 	while (temp)
 	{
 		if (!(temp->next))
-			break;
+			break ;
 		temp = temp->next;
 	}
 	if (!(head))
@@ -21,6 +21,7 @@ static t_env	*get_new_list_element(t_env *new, t_env *head)
 void	get_env_list(char **env, t_msh *ms)
 {
 	int		i;
+	int		j;
 	char	**splitted;
 	t_env	*temp;
 
@@ -29,9 +30,15 @@ void	get_env_list(char **env, t_msh *ms)
 	{
 		temp = (t_env *)malloc(sizeof(t_env));
 		temp->next = NULL;
+		temp->value = NULL;
 		splitted = ft_split(env[i], '=');
-		temp->key = splitted[0];
-		temp->value = splitted[1];
+		temp->key = ft_strdup(splitted[0]);
+		if (splitted[1])
+			temp->value = ft_strdup(splitted[1]);
 		ms->env_list = get_new_list_element(temp, ms->env_list);
+		j = -1;
+		while (splitted[++j])
+			free(splitted[j]);
+		free(splitted);
 	}
 }

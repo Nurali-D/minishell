@@ -1,90 +1,80 @@
 #include "minishell.h"
 
-int	check_semicolon(void)
+int	check_before_pipe(char *str, int i)
 {
-	printf("Not interpret ;\n");
+	int	k;
+
+	k = i;
+	while (k > 0 && str[k])
+	{
+		k--;
+		if (ft_isprint(str[k]) && (str[k] != ' '
+				&& str[k] != '|' && str[k] != '<' && str[k] != '>'))
+			return (0);
+		else if (str[k] == '|' || str[k] == '<' || str[k] == '>')
+		{
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near unexpected token `|'\n", 39);
+			return (1);
+		}
+	}
+	write(STDERR_FILENO, "bash: syntax error near unexpected token `|'\n", 45);
 	return (1);
 }
 
-int is_separator(char c)
+int	check_after_pipe(char *str, int i)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>')
+	int	k;
+
+	k = i;
+	while (str[++k])
+	{
+		if (ft_isprint(str[k]) && (str[k] != ' '
+				&& str[k] != '|' && str[k] != '<' && str[k] != '>'))
+			return (0);
+		else if (str[k] == '|')
+		{
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near unexpected token `|'\n", 39);
+			return (1);
+		}
+		else if (str[k] == '<' || str[k] == '>')
+		{
+			write(STDERR_FILENO, "bash: ", 6);
+			write(STDERR_FILENO, "syntax error near ", 18);
+			write(STDERR_FILENO, "unexpected token `newline'\n", 27);
+			return (1);
+		}
+	}
+	write(STDERR_FILENO, "bash: syntax error near unexpected token `|'\n", 45);
+	return (1);
+}
+
+int	check_pipe(char *str, int i)
+{
+	if (check_before_pipe(str, i))
+		return (1);
+	if (check_after_pipe(str, i))
 		return (1);
 	return (0);
-}
-
-int	check_pipe(char *line, int i)
-{
-	int	j;
-	int k;
-
-	k = 0;
-	j = i;
-	while (j >= 0 && line[--j])
-		if (ft_isprint(line[j]) && !is_separator(line[j]))
-		{
-			k = 1;
-			break ;
-		}
-	j = i;
-	while (j < (int)ft_strlen(line) && line[++j])
-		if (ft_isprint(line[j]) && !is_separator(line[j]))
-		{
-			k++;
-			break ;
-		}
-	if (k == 2)
-		return (0);
-	if (k != 2 && (int)ft_strlen(line) > 0 && line[i + 1] == '|')
-		printf("syntax error near unexpected token `||'\n");
-	else
-		printf("syntax error near unexpected token `|'\n");
-	return (1);
-}
-
-int	check_redirections(char *line, int *i)
-{
-	int		j;
-	int		k;
-	char	c;
-
-	c = 0;
-	k = 0;
-	j = *i;
-	while (line[++j])
-	{
-		if (line[j] == '|')
-			c = line[j];
-		if (ft_isprint(line[j]) && !is_separator(line[j]))
-			return (0);
-	}
-	if (c != 0 && !(line[*i] == '>' && line[*i + 1] != '>'))
-		printf("syntax error near unexpected token `|'\n");
-	else
-		printf("syntax error near unexpected token `newline'\n");
-	return (1);
 }
 
 int	check_for_syntax_errors(t_msh *ms)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = -1;
-	(void)ms;
 	while (ms->line && ms->line[++i])
 	{
-		if (ms->line[i] == '\'' && check_single_quotes(ms->line, &i) == 1)
+		if (ms->line[i] == '|')
+			j = check_pipe(ms->line, i);
+		if (j != 0)
 			return (1);
-		// else if (ms->line[i] == '\\')
-		// 	i += 1;
-		else if (ms->line[i] == '"' && check_double_quotes(ms->line, &i) == 1)
-			return (1);
-		else if (ms->line[i] == ';')
-			return (check_semicolon());
-		else if (ms->line[i] == '|' && check_pipe(ms->line, i) == 1)
-			return (1);
-		else if ((ms->line[i] == '>' || ms->line[i] == '<')
-					&& check_redirections(ms->line, &i))
+		if (ms->line[i] == '<' || ms->line[i] == '>')
+			j = check_redirection(ms->line, i);
+		if (j != 0)
 			return (1);
 	}
 	return (0);
