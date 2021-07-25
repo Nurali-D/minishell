@@ -97,7 +97,7 @@ void	exit_execution(void);
 ** utils for exec functions
 */
 int		ft_arrlen(char **s);
-int		ft_isenv(int c);
+int		ft_isenv(char *s);
 char	**get_env_arr(t_env *export);
 void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
