@@ -46,8 +46,6 @@ void	add_export(t_env *lst, char **args, int i, int len)
 	}
 	else
 		ft_lstadd_back(lst, ft_lstnew(name, value));
-	// free(name);
-	// free(value);
 }
 
 void	export_execution(t_env *lst, char **args)
@@ -61,9 +59,7 @@ void	export_execution(t_env *lst, char **args)
 	{
 		i = 0;
 		while (args[++i])
-		{
 			add_export(lst, args, i, 0);
-		}
 	}
 }
 
@@ -89,8 +85,22 @@ void	unset_execution(t_env *lst, char **args)
 
 void	exit_execution(char **args)
 {
+	int	i;
 	(void)args;
 	
-	// ft_error(args[0], args[1], "numeric argument required", 255);
-	exit(0);
+	i = -1;
+	g_status = 0;
+	if (args[1])
+	{
+		while (args[1][++i])
+		{
+			if (!ft_isdigit(args[1][i]))
+			{
+				ft_error("exit: ", args[1], "numeric argument required", 255);
+				break ;
+			}
+		}
+		g_status = atoi(args[1]);
+	}
+	exit(g_status);
 }  

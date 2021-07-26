@@ -26,8 +26,8 @@ RM = rm -f
 CFLAGS = -I $(HEAD)
 
 FLAGS = -L $(LIB)libft -lft \
-		-L/usr/local/Cellar/readline/8.1/lib/ \
-		-I/usr/local/Cellar/readline/8.1/include/readline/ \
+		-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ \
+		-I/Users/$(USER)/.brew/Cellar/readline/8.1/include \
 		-lreadline \
 
 $(NAME) : $(OBJS) $(HEAD)*.h
