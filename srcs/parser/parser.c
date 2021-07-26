@@ -51,6 +51,7 @@ int	parse_line(t_msh *ms)
 {
 	int	i;
 
+	// check_export_quotes(&ms->line);
 	i = -1;
 	while (ms->line && ms->line[++i])
 	{
