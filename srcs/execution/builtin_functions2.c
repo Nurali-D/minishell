@@ -15,7 +15,7 @@ void	print_export(t_env *export)
 		ft_putstr_fd("\n", 1);
 	}
 	i = -1;
-	while (tmp[++i])
+	while (tmp && tmp[++i])
 		free(tmp[i]);
 	free(tmp);
 }

@@ -17,31 +17,32 @@ int	count_tokens(t_token *tokens)
 
 int	execute_one_command(t_msh *ms)
 {
-	int	pid;
+	int	saved_stdout;
+	int	saved_stdin;
 
-	pid = fork();
-	if (pid < 0)
-		return (-1);
-	else if (pid == 0)
-	{
-		if (ms->tokens->fd_in != -1)
-		{
-			dup2(ms->tokens->fd_in, STDIN_FILENO);
-			close(ms->tokens->fd_in);
-		}
-		if (ms->tokens->fd_out != -1)
-		{
-			dup2(ms->tokens->fd_out, STDOUT_FILENO);
-			close(ms->tokens->fd_out);
-		}
-		// check_functions(ms->tokens, ms->env_list);
-		exit (0);
-	}
 	if (ms->tokens->fd_in != -1)
+	{
+		saved_stdin = dup(STDIN_FILENO);
+		dup2(ms->tokens->fd_in, STDIN_FILENO);
 		close(ms->tokens->fd_in);
+	}
 	if (ms->tokens->fd_out != -1)
+	{
+		saved_stdout = dup(STDOUT_FILENO);
+		dup2(ms->tokens->fd_out, STDOUT_FILENO);
 		close(ms->tokens->fd_out);
-	waitpid(pid, 0, 0);
+	}
+	check_functions(ms->tokens, ms->env_list);
+	if (ms->tokens->fd_in != -1)
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+	}
+	if (ms->tokens->fd_out != -1)
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+	}
 	return (0);
 }
 
@@ -72,7 +73,6 @@ void	execute_commands(t_msh *ms)
 		if (ms->tokens->fd_err == -1)
 			return ;
 		execute_one_command(ms);
-		check_functions(ms->tokens, ms->env_list);
 	}
 	unlink("heredoc_temp");
 }

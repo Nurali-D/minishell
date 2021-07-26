@@ -84,6 +84,7 @@ void	save_fdout_to_token(char **filenames, char **append,
 			t_token *token, int last);
 void	free_array(char **array);
 int		check_redirection(char *str, int i);
+void	check_export_quotes(char **str);
 
 /*
 ** Exec functions
