@@ -8,7 +8,7 @@ int	check_stat(char **args)
 	status = stat(args[0], &buf);
 	if (status == 0)
 	{
-		if ((buf.st_mode & __S_IFDIR))
+		if ((buf.st_mode & S_IFDIR))
 		{
 			ft_error(args[0], "", "is a directory",  0);
 			return (0);

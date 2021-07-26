@@ -11,6 +11,7 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c error_func
 		parser_utils.c parser_utils2.c put_to_tokens.c \
 		syntax_error2.c dollar_question.c check_infiles.c find_redirections.c \
 		find_redirections_utils.c read_from_heredoc.c save_fdout.c export_quotes.c \
+		export_quotes2.c replace_export.c \
 
 EXECFILES = execution.c builtin_functions.c builtin_functions2.c error.c utils.c sort.c \
 			lst_utils.c start.c signal.c execute_commands.c exec_command.c make_forks.c \
@@ -26,8 +27,8 @@ RM = rm -f
 CFLAGS = -I $(HEAD)
 
 FLAGS = -L $(LIB)libft -lft \
-		-L/usr/local/Cellar/readline/8.1/lib/ \
-		-I/usr/local/Cellar/readline/8.1/include/readline/ \
+		-L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ \
+		-I/Users/$(USER)/.brew/Cellar/readline/8.1/include \
 		-lreadline \
 
 $(NAME) : $(OBJS) $(HEAD)*.h

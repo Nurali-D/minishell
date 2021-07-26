@@ -55,6 +55,19 @@ typedef struct s_msh
 	int			i;
 }				t_msh;
 
+typedef struct s_exp
+{
+	int		start;
+	int		pipe;
+	char	*ret;
+	char	*before;
+	char	*after;
+	char	*tmp1;
+	char	*tmp2;
+	char	*export;
+	char	**str;
+}				t_exp;
+
 /*
 ** Pars functions
 */
@@ -85,6 +98,13 @@ void	save_fdout_to_token(char **filenames, char **append,
 void	free_array(char **array);
 int		check_redirection(char *str, int i);
 void	check_export_quotes(char **str);
+int		check_before_export(char *str, char *export);
+int		find_pipe(char *export, int i);
+char	*get_in_quotes(char *export, int *i, char c);
+void	replace_export175(t_token *tokens);
+void	free_tokens(t_token *tokens);
+void	free_env(t_msh *ms);
+void	free_fd_pid(int **fd, int *pid, t_msh *ms);
 
 /*
 ** Exec functions
@@ -95,7 +115,7 @@ void	check_functions(t_token *token, t_env *env_list);
 void	execute_commands(t_msh *ms);
 int		close_fd(int **fd, int n);
 int		make_forks(t_msh *ms, int **fd, int *pid);
-int		exec_command(int **fd, t_token *token, t_msh *ms);
+int		exec_command(int **fd, t_token *token, t_msh *ms, int *pid);
 
 /*
 ** built-in functions
