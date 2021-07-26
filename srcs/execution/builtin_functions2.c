@@ -31,7 +31,7 @@ void	add_export(t_env *lst, char **args, int i, int len)
 	name = ft_substr(args[i], 0, len);
 	if (ft_isenv(name))
 	{
-		ft_error("export: ", name, "not a valid identifier", 2);
+		env_error("export: ", name, "not a valid identifier", 1);
 		free(name);
 		return ;
 	}
@@ -54,6 +54,7 @@ void	export_execution(t_env *lst, char **args)
 {
 	int	i;
 
+	g_status = 0;
 	if (!args[1])
 		print_export(lst);
 	else
@@ -70,6 +71,7 @@ void	unset_execution(t_env *lst, char **args)
 {
 	int	i;
 
+	g_status = 0;
 	if (args[1])
 	{
 		i = 0;
@@ -77,7 +79,7 @@ void	unset_execution(t_env *lst, char **args)
 		{
 			if (ft_isenv(args[i]))
 			{
-				ft_error("export: ", args[i], "not a valid identifier", 2);
+				env_error("unset: ", args[i], "not a valid identifier", 1);
 				continue ;
 			}
 			ft_poplst(ft_getenv(lst, args[i]), lst);
@@ -85,11 +87,10 @@ void	unset_execution(t_env *lst, char **args)
 	}
 }
 
-void	exit_execution(void)
+void	exit_execution(char **args)
 {
-	// free linked list
-	// free structure
-	// free all
-	ft_putendl_fd("exit", 1);
+	(void)args;
+	
+	// ft_error(args[0], args[1], "numeric argument required", 255);
 	exit(0);
 }  

@@ -15,11 +15,11 @@ void	check_functions(t_token *token, t_env *env_list)
 	else if ((ft_strcmp(token->args[0], "env")) == 0)
 		env_execution(env_list, token->args);
 	else if ((ft_strcmp(token->args[0], "exit")) == 0)
-		exit_execution();
+		exit_execution(token->args);
 	else if ((ft_strchr(token->args[0], '/')) != NULL)
 		check_fullpath_functions(token->args, env_list);
 	else if ((check_execve_functions(token->args, env_list)))
 		;
 	else
-		ft_error(token->args[0], "", "command not found", 0);
+		ft_error(token->args[0], "", "command not found", 127);
 }

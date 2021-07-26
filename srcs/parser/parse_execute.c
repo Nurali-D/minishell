@@ -24,7 +24,7 @@ void	free_tokens(t_token *tokens)
 void	parse_execute(t_msh *ms)
 {
 	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &quit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		ms->line = readline(ms->prompt);
@@ -42,6 +42,6 @@ void	parse_execute(t_msh *ms)
 				free(ms->line);
 		}
 		else
-			exit_execution();
+			exit_execution(NULL);
 	}
 }

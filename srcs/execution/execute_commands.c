@@ -34,7 +34,7 @@ int	execute_one_command(t_msh *ms)
 			dup2(ms->tokens->fd_out, STDOUT_FILENO);
 			close(ms->tokens->fd_out);
 		}
-		check_functions(ms->tokens, ms->env_list);
+		// check_functions(ms->tokens, ms->env_list);
 		exit (0);
 	}
 	if (ms->tokens->fd_in != -1)
@@ -72,7 +72,7 @@ void	execute_commands(t_msh *ms)
 		if (ms->tokens->fd_err == -1)
 			return ;
 		execute_one_command(ms);
-		// check_functions(ms->tokens, ms->env_list);
+		check_functions(ms->tokens, ms->env_list);
 	}
 	unlink("heredoc_temp");
 }

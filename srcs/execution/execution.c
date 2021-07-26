@@ -8,14 +8,14 @@ int	check_stat(char **args)
 	status = stat(args[0], &buf);
 	if (status == 0)
 	{
-		if ((buf.st_mode & __S_IFDIR))
+		if ((buf.st_mode & S_IFDIR))
 		{
-			ft_error(args[0], "", "is a directory",  0);
+			ft_error(args[0], "", "is a directory",  126);
 			return (0);
 		}
 		else if (!(buf.st_mode & S_IXUSR))
 		{
-			ft_error(args[0], "", strerror(EACCES),  0);
+			ft_error(args[0], "", strerror(EACCES), 126);
 			return (0);
 		}
 	}

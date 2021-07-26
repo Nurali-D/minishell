@@ -105,7 +105,7 @@ void	pwd_execution(void);
 void	env_execution(t_env *env, char **args);
 void	export_execution(t_env *ms, char **args);
 void	unset_execution(t_env *ms, char **args);
-void	exit_execution(void);
+void	exit_execution(char **args);
 
 /*
 ** utils for exec functions
@@ -115,8 +115,8 @@ int		ft_isenv(char *s);
 char	**get_env_arr(t_env *export);
 void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
-void	ft_error(char *cmd, char *arg, char *err, int flag);
-void	env_error(char *cmd);
+void	ft_error(char *s1, char *s2, char *err, int status);
+void	env_error(char *s1, char *s2, char *err, int status);
 void	bubblesort(char **values);
 void	print_export(t_env *export);
 
