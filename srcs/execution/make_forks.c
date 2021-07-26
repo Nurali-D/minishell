@@ -28,7 +28,7 @@ int	make_forks(t_msh *ms, int **fd, int *pid)
 		else if (pid[i] == 0)
 		{
 			ms->i = i;
-			if (exec_command(fd, tmp, ms) == -1)
+			if (exec_command(fd, tmp, ms, pid) == -1)
 				return (-1);
 		}
 		tmp = tmp->next;

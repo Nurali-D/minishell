@@ -46,6 +46,23 @@ int	execute_one_command(t_msh *ms)
 	return (0);
 }
 
+void	free_fd_pid(int **fd, int *pid, t_msh *ms)
+{
+	int	i;
+
+	i = -1;
+	while (++i < ms->nc + 1)
+	{
+		if (fd && fd[i])
+			free(fd[i]);
+	}
+	if (fd)
+		free(fd);
+	if (pid)
+		free(pid);
+	free_tokens(ms->tokens);
+}
+
 void	execute_commands(t_msh *ms)
 {
 	int		**fd;
@@ -66,7 +83,7 @@ void	execute_commands(t_msh *ms)
 		while (++i < ms->nc + 1)
 			pipe(fd[i]);
 		make_forks(ms, fd, pid);
-		// free_fd_pid();
+		// free_fd_pid(fd, pid, ms);
 	}
 	else
 	{

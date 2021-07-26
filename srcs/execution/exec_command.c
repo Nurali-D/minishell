@@ -50,8 +50,9 @@ void	other_command(t_token *token, int **fd, t_msh *ms)
 		dup2(fd[ms->i + 1][1], STDOUT_FILENO);
 }
 
-int	exec_command(int **fd, t_token *token, t_msh *ms)
+int	exec_command(int **fd, t_token *token, t_msh *ms, int *pid)
 {
+	(void)pid;
 	if (token->fd_err == -1)
 	{
 		close_fd(fd, ms->nc + 1);
@@ -65,5 +66,7 @@ int	exec_command(int **fd, t_token *token, t_msh *ms)
 		other_command(token, fd, ms);
 	close_fd(fd, ms->nc + 1);
 	check_functions(token, ms->env_list);
+	// free_fd_pid(fd, pid, ms);
+	// free_env(ms);
 	exit (0);
 }
