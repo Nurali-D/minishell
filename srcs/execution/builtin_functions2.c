@@ -83,6 +83,66 @@ void	unset_execution(t_env *lst, char **args)
 	}
 }
 
+static	size_t	ft_checksp(const char *str)
+{
+	size_t i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\v' ||
+	str[i] == '\f' || str[i] == '\r' || str[i] == '\n')
+		i++;
+	return (i);
+}
+
+static	int		ft_conv(const char *str, size_t i, size_t l)
+{
+	int res;
+	int k;
+
+	res = 0;
+	k = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (str[i] != '0')
+			k++;
+		if (k > 19)
+		{
+			if (l > 0)
+				return (0);
+			else
+			{
+				return (-1);
+			}
+		}
+		res = res * 10 + (str[i] - '0');
+		i++;
+	}
+	return (res);
+}
+
+int				ft_datoi(const char *str)
+{
+	size_t	i;
+	int		res;
+	size_t	minus;
+
+	if (!str)
+		return (0);
+	minus = 0;
+	i = ft_checksp(str);
+	if (str[i] == '-')
+	{
+		minus++;
+		i++;
+	}
+	if (str[i] == '+' && str[i - 1] != '-')
+		i++;
+	res = ft_conv(str, i, minus);
+	if (minus > 0)
+		res = res * -1;
+	return (res);
+}
+
 void	exit_execution(char **args)
 {
 	int	i;
@@ -90,6 +150,7 @@ void	exit_execution(char **args)
 	
 	i = -1;
 	g_status = 0;
+	ft_putendl_fd("exit", 1);
 	if (args[1])
 	{
 		while (args[1][++i])
@@ -97,10 +158,14 @@ void	exit_execution(char **args)
 			if (!ft_isdigit(args[1][i]))
 			{
 				ft_error("exit: ", args[1], "numeric argument required", 255);
-				break ;
+				exit(g_status);
 			}
 		}
-		g_status = atoi(args[1]);
+		if (args[2])
+		{
+			ft_error("exit: ", NULL, "too many arguments", 1);
+			return ;
+		}
 	}
 	exit(g_status);
-}  
+}
