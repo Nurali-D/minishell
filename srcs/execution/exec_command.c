@@ -66,7 +66,7 @@ int	exec_command(int **fd, t_token *token, t_msh *ms, int *pid)
 		other_command(token, fd, ms);
 	close_fd(fd, ms->nc + 1);
 	check_functions(token, ms->env_list);
-	// free_fd_pid(fd, pid, ms);
-	// free_env(ms);
+	free_fd_pid(fd, pid, ms);
+	free_env(ms);
 	exit (0);
 }
