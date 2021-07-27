@@ -67,6 +67,6 @@ int	parse_line(t_msh *ms)
 		return (1);
 	}
 	make_tokens(ms);
-	replace_175(ms->tokens);
+	replace_extended_ascii(ms->tokens);
 	return (0);
 }

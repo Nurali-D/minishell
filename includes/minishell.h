@@ -84,7 +84,7 @@ void	save_fdout_to_token(char **filenames, char **append,
 			t_token *token, int last);
 void	free_array(char **array);
 int		check_redirection(char *str, int i);
-void	replace_175(t_token *tokens);
+void	replace_extended_ascii(t_token *tokens);
 void	free_tokens(t_token *tokens);
 void	free_env(t_msh *ms);
 void	free_fd_pid(int **fd, int *pid, t_msh *ms);

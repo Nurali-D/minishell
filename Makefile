@@ -11,7 +11,7 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c \
 		parser_utils.c parser_utils2.c put_to_tokens.c free_functions.c \
 		syntax_error2.c dollar_question.c check_infiles.c find_redirections.c \
 		find_redirections_utils.c read_from_heredoc.c save_fdout.c \
-		replace_175.c \
+		replace_extended_ascii.c \
 
 EXECFILES = execution.c builtin_functions.c builtin_functions2.c error.c utils.c sort.c \
 			lst_utils.c start.c signal.c execute_commands.c exec_command.c make_forks.c \
