@@ -37,7 +37,7 @@ int	execute_one_command(t_msh *ms)
 	int	saved_stdin;
 
 	treat_fd(ms->tokens, &saved_stdin, &saved_stdout);
-	check_functions(ms->tokens, ms->env_list);
+	check_functions(ms->tokens, ms->env_list, ms->nc);
 	if (ms->tokens->fd_in != -1)
 	{
 		dup2(saved_stdin, STDIN_FILENO);
@@ -67,7 +67,7 @@ void	execute_commands2(t_msh *ms)
 	i = -1;
 	while (++i < ms->nc + 1)
 		pipe(fd[i]);
-	make_forks(ms, fd, pid);
+	make_forks(ms, fd, pid, 0);
 	free_fd_pid(fd, pid, ms);
 }
 

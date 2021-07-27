@@ -24,7 +24,6 @@
 # include "../lib/libft/libft.h"
 
 int	g_status;
-// g_status
 
 void	rl_replace_line(const char *text, int clear_undo);
 
@@ -92,12 +91,12 @@ void	free_fd_pid(int **fd, int *pid, t_msh *ms);
 /*
 ** Exec functions
 */
-int		check_execve_functions(char **args, t_env *head);
-void	check_fullpath_functions(char **args, t_env *head);
-void	check_functions(t_token *token, t_env *env_list);
+int		check_execve_functions(char **args, t_env *head, int nc);
+void	check_fullpath_functions(char **args, t_env *head, int nc);
+void	check_functions(t_token *token, t_env *env_list, int nc);
 void	execute_commands(t_msh *ms);
 int		close_fd(int **fd, int n);
-int		make_forks(t_msh *ms, int **fd, int *pid);
+int		make_forks(t_msh *ms, int **fd, int *pid, int status);
 int		exec_command(int **fd, t_token *token, t_msh *ms, int *pid);
 
 /*
@@ -116,6 +115,8 @@ void	exit_execution(char **args);
 */
 int		ft_arrlen(char **s);
 int		ft_isenv(char *s);
+char	*ft_ltoa(long long int n);
+int64_t	ft_atol(const char *str);
 char	**get_env_arr(t_env *export);
 void	cmd_not_found(char *cmd);
 char	*triplejoin(char *s1, char *s2, char *s3);
@@ -137,7 +138,9 @@ t_env	*ft_getenv(t_env *head, char *env);
 /*
 ** signals
 */
-void	sig_handler(int handler);
+void	ctrl_c_handler(int handler);
+void	ctrl_d_handler(int handler);
 void	quit_handler(int handler);
+void	get_status(int status);
 
 #endif

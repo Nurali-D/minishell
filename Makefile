@@ -4,6 +4,8 @@ HEAD = includes/
 
 PARSDIR = srcs/parser/
 EXECDIR = srcs/execution/
+BUILTIN = srcs/execution/builtin_functions/
+UTILS = srcs/execution/utils/
 
 LIB = lib/
 
@@ -13,10 +15,14 @@ PARSFILES = main.c parse_execute.c env_list.c parser.c syntax_error.c \
 		find_redirections_utils.c read_from_heredoc.c save_fdout.c \
 		replace_extended_ascii.c \
 
-EXECFILES = execution.c builtin_functions.c builtin_functions2.c error.c utils.c sort.c \
-			lst_utils.c start.c signal.c execute_commands.c exec_command.c make_forks.c \
+EXECFILES = start.c execute_commands.c make_forks.c exec_command.c execve.c signal.c \
+			
+BUILTINFILES = echo.c cd.c pwd.c export.c unset.c env.c exit.c
 
-SRCS = $(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES))
+UTILSFILES = utils.c error.c lst_utils.c exit_utils.c export_utils.c sort.c
+
+SRCS =	$(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES)) \
+		$(addprefix $(BUILTIN), $(BUILTINFILES)) $(addprefix $(UTILS), $(UTILSFILES))
 
 OBJS = ${SRCS:.c=.o}
 
@@ -54,6 +60,6 @@ re: fclean all
 bonus: all
 
 norme:
-	norminette -R CheckForbiddenSourceHeader $(PARSDIR)*.c $(EXECDIR)*.c $(HEAD)*.h
+	norminette -R CheckForbiddenSourceHeader $(SRCS) $(HEAD)*.h
 
 .PHONY: all clean fclean re norme bonuss

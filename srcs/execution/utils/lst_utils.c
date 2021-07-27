@@ -62,31 +62,3 @@ void	ft_poplst(t_env *lst, t_env *root)
 		free(lst);
 	}
 }
-
-char	**lsttoarr(t_env *lst)
-{
-	int		i;
-	char	**res;
-	char	*ptr;
-	t_env	*tmp;
-
-	tmp = lst;
-	i = ft_lstsize(tmp);
-	res = (char **)malloc(sizeof(char *) * (i + 1));
-	i = -1;
-	while (tmp)
-	{
-		i++;
-		if (tmp->value != NULL)
-		{
-			ptr = triplejoin("\"", tmp->value, "\"");
-			res[i] = triplejoin(tmp->key, "=", ptr);
-			free(ptr);
-		}
-		else
-			res[i] = ft_strdup(tmp->key);
-		tmp = tmp->next;
-	}
-	res[i + 1] = NULL;
-	return (res);
-}

@@ -34,7 +34,10 @@ void	get_env_list(char **env, t_msh *ms)
 		splitted = ft_split(env[i], '=');
 		temp->key = ft_strdup(splitted[0]);
 		if (splitted[1])
-			temp->value = ft_strdup(splitted[1]);
+		{
+			if ((ft_strcmp(splitted[0], "OLDPWD")) != 0)
+				temp->value = ft_strdup(splitted[1]);
+		}
 		ms->env_list = get_new_list_element(temp, ms->env_list);
 		j = -1;
 		while (splitted[++j])

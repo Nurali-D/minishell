@@ -13,7 +13,7 @@ int	close_fd(int **fd, int n)
 	return (0);
 }
 
-int	make_forks(t_msh *ms, int **fd, int *pid)
+int	make_forks(t_msh *ms, int **fd, int *pid, int status)
 {
 	int		i;
 	t_token	*tmp;
@@ -37,6 +37,7 @@ int	make_forks(t_msh *ms, int **fd, int *pid)
 	close_fd(fd, ms->nc + 1);
 	i = -1;
 	while (++i < ms->nc)
-		waitpid(pid[i], 0, 0);
+		waitpid(pid[i], &status, WUNTRACED);
+	get_status(status);
 	return (0);
 }

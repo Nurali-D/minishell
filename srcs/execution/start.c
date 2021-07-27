@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	check_functions(t_token *token, t_env *env_list)
+void	check_functions(t_token *token, t_env *env_list, int nc)
 {
 	if ((ft_strcmp(token->args[0], "echo")) == 0)
 		echo_execution(token->args);
@@ -17,9 +17,9 @@ void	check_functions(t_token *token, t_env *env_list)
 	else if ((ft_strcmp(token->args[0], "exit")) == 0)
 		exit_execution(token->args);
 	else if ((ft_strchr(token->args[0], '/')) != NULL)
-		check_fullpath_functions(token->args, env_list);
-	else if ((check_execve_functions(token->args, env_list)))
+		check_fullpath_functions(token->args, env_list, nc);
+	else if ((check_execve_functions(token->args, env_list, nc)))
 		;
 	else
-		ft_error(token->args[0], "", "command not found", 127);
+		ft_error(token->args[0], NULL, "command not found", 127);
 }
