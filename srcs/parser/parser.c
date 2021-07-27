@@ -19,7 +19,7 @@ void	change_179(char **s)
 	int	j;
 
 	i = -1;
-	while(s[++i])
+	while (s[++i])
 	{
 		j = -1;
 		while (s[i][++j])
@@ -51,7 +51,6 @@ int	parse_line(t_msh *ms)
 {
 	int	i;
 
-	check_export_quotes(&ms->line);
 	i = -1;
 	while (ms->line && ms->line[++i])
 	{
@@ -68,6 +67,6 @@ int	parse_line(t_msh *ms)
 		return (1);
 	}
 	make_tokens(ms);
-	replace_export175(ms->tokens);
+	replace_175(ms->tokens);
 	return (0);
 }

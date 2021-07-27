@@ -15,6 +15,8 @@ char	*treat_single_quotes(char *str, int *i)
 	j = *i;
 	while (str[++*i])
 	{
+		if (str[*i] == ' ')
+			str[*i] = (char)175;
 		if (str[*i] == '|')
 			str[*i] = (char)179;
 		if (str[*i] == '\'')
@@ -32,23 +34,30 @@ char	*treat_single_quotes(char *str, int *i)
 	return (str);
 }
 
+void	change_space_pipe_dollar(char **str, int *i, t_env *env)
+{
+	while ((*str)[++*i])
+	{
+		if ((*str)[*i] == ' ')
+			(*str)[*i] = (char)175;
+		if ((*str)[*i] == '|')
+			(*str)[*i] = (char)179;
+		if ((*str)[*i] == '\"')
+			break ;
+		if ((*str)[*i] == '$')
+		{
+			(*str) = treat_dollar((*str), i, env);
+			*i -= 1;
+		}
+	}
+}
+
 char	*treat_double_quotes(char *str, int *i, t_env *env)
 {
 	int		j;
 
 	j = *i;
-	while (str[++*i])
-	{
-		if (str[*i] == '|')
-			str[*i] = (char)179;
-		if (str[*i] == '\"')
-			break ;
-		if (str[*i] == '$')
-		{
-			str = treat_dollar(str, i, env);
-			*i -= 1;
-		}
-	}
+	change_space_pipe_dollar(&str, i, env);
 	if (*i == (int)ft_strlen(str))
 	{
 		free(str);

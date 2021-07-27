@@ -27,19 +27,21 @@ int	permission_to_write(char *filename)
 char	*check_outfiles(char **filenames)
 {
 	int	i;
+	int	c;
 
 	i = -1;
 	while (filenames[++i])
 	{
-		if (is_directory(filenames[i]))
+		if (!file_exist(filenames[i]))
+			close(open(filenames[i], O_RDWR | O_CREAT, 0644));
+		c = is_directory(filenames[i]);
+		if (c)
 		{
 			write(STDERR_FILENO, "bash: ", 6);
 			write(STDERR_FILENO, filenames[i], ft_strlen(filenames[i]));
 			write(STDERR_FILENO, ": Is a directory\n", 17);
 			return (NULL);
 		}
-		if (!file_exist(filenames[i]))
-			close(open(filenames[i], O_RDWR | O_CREAT, 0644));
 		if (!permission_to_write(filenames[i]))
 		{
 			write(STDERR_FILENO, "bash: ", 6);
