@@ -13,13 +13,34 @@ int	close_fd(int **fd, int n)
 	return (0);
 }
 
-int	make_forks(t_msh *ms, int **fd, int *pid, int status)
+void	make_forks2(int *pid, int nc)
+{
+	int	i;
+	int	status;
+	int	temp_status;
+
+	i = -1;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	while (++i < nc)
+	{
+		waitpid(pid[i], &status, WUNTRACED);
+		if ((WIFEXITED(status)) != 0)
+			get_status(status);
+		else
+			temp_status = status;
+	}
+	if (temp_status != 0)
+		get_status(temp_status);
+}
+
+int	make_forks(t_msh *ms, int **fd, int *pid)
 {
 	int		i;
 	t_token	*tmp;
 
-	tmp = ms->tokens;
 	i = 0;
+	tmp = ms->tokens;
 	while (tmp)
 	{
 		pid[i] = fork();
@@ -35,9 +56,6 @@ int	make_forks(t_msh *ms, int **fd, int *pid, int status)
 		i++;
 	}
 	close_fd(fd, ms->nc + 1);
-	i = -1;
-	while (++i < ms->nc)
-		waitpid(pid[i], &status, WUNTRACED);
-	get_status(status);
+	make_forks2(pid, ms->nc);
 	return (0);
 }

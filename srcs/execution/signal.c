@@ -8,6 +8,7 @@ void	get_status(int status)
 	}
 	else if ((WIFSIGNALED(status)) != 0)
 	{
+		printf("sig = %d\n", WTERMSIG(status));
 		if ((WTERMSIG(status)) == 3)
 		{
 			g_status = (131);
@@ -16,17 +17,9 @@ void	get_status(int status)
 		else if ((WTERMSIG(status)) == 2)
 		{
 			ft_putchar_fd('\n', 1);
-			rl_on_new_line();
 			g_status = (130);
 		}
 	}
-}
-
-void	ctrl_d_handler(int handler)
-{
-	(void)handler;
-	ft_putendl_fd("exit", 1);
-	exit(0);
 }
 
 void	ctrl_c_handler(int handler)
@@ -41,7 +34,10 @@ void	ctrl_c_handler(int handler)
 	g_status = 1;
 }
 
-void	quit_handler(int handler)
+void	ctrl_d_handler(int handler)
 {
 	(void)handler;
+	ft_putstr_fd("\033[A\r", 2);
+	ft_putstr_fd("➜  minishell$ exit\n", 2);
+	exit(g_status);
 }

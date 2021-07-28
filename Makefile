@@ -19,7 +19,7 @@ EXECFILES = start.c execute_commands.c make_forks.c exec_command.c execve.c sign
 			
 BUILTINFILES = echo.c cd.c pwd.c export.c unset.c env.c exit.c
 
-UTILSFILES = utils.c error.c lst_utils.c exit_utils.c export_utils.c sort.c
+UTILSFILES = utils.c error.c lst_utils.c execve_utils.c exit_utils.c export_utils.c sort.c
 
 SRCS =	$(addprefix $(PARSDIR), $(PARSFILES)) $(addprefix $(EXECDIR), $(EXECFILES)) \
 		$(addprefix $(BUILTIN), $(BUILTINFILES)) $(addprefix $(UTILS), $(UTILSFILES))

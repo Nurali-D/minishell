@@ -91,12 +91,15 @@ void	free_fd_pid(int **fd, int *pid, t_msh *ms);
 /*
 ** Exec functions
 */
-int		check_execve_functions(char **args, t_env *head, int nc);
-void	check_fullpath_functions(char **args, t_env *head, int nc);
-void	check_functions(t_token *token, t_env *env_list, int nc);
+int		execve_relative_path(t_msh *ms, t_env *head);
+void	execve_absolute_path(t_msh *ms, t_env *head);
+int		check_path(t_msh *ms, char **path, char **env);
+int		check_stat(char **args);
+void	ft_execve(char **args, char **env);
+void	check_functions(t_msh *ms, t_env *env_list);
 void	execute_commands(t_msh *ms);
 int		close_fd(int **fd, int n);
-int		make_forks(t_msh *ms, int **fd, int *pid, int status);
+int		make_forks(t_msh *ms, int **fd, int *pid);
 int		exec_command(int **fd, t_token *token, t_msh *ms, int *pid);
 
 /*
@@ -140,7 +143,6 @@ t_env	*ft_getenv(t_env *head, char *env);
 */
 void	ctrl_c_handler(int handler);
 void	ctrl_d_handler(int handler);
-void	quit_handler(int handler);
 void	get_status(int status);
 
 #endif

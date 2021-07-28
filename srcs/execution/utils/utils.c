@@ -25,7 +25,7 @@ char	**get_env_arr(t_env *env)
 
 	tmp = env;
 	i = ft_lstsize(tmp);
-	res = (char **)malloc(sizeof(char *) * i);
+	res = (char **)malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (tmp)
 	{
